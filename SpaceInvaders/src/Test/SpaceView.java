@@ -8,9 +8,10 @@ public class SpaceView extends View {
 		super(width, height);
 	}
 
+	/*
 	@Override
 	public void createGraph() {
 		GRect ship = new GRect(200,200);
-	}
+	}*/
 
 }
