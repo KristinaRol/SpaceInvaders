@@ -2,6 +2,7 @@ package Test;
 
 import java.util.ArrayList;
 
+import Model.Spaceship;
 import acm.graphics.GRect;
 
 

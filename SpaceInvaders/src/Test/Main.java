@@ -1,12 +1,7 @@
 package Test;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JPanel;
-
-import acm.graphics.GOval;
-import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
 
 public class Main extends GraphicsProgram {

@@ -1,4 +1,4 @@
-package Test;
+package Model;
 
 public class Enemy {
 

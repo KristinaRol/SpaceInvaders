@@ -1,4 +1,4 @@
-package Test;
+package Model;
 
 import acm.graphics.GRect;
 

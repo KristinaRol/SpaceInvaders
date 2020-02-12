@@ -1,7 +1,5 @@
 package Test;
 
-import acm.graphics.GRect;
-
 public class SpaceView extends View {
 
 	public SpaceView(double width, double height) {
