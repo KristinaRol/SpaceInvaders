@@ -14,7 +14,6 @@ public class Controller implements ActionListener {
 	public void init() {
 		view.addKeyListeners();
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
