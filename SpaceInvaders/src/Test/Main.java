@@ -21,6 +21,7 @@ public class Main extends GraphicsProgram {
 		new Main().start();
 	}
 
+	
 	public void init() {
 
 		addKeyListeners();
