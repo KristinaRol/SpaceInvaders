@@ -15,7 +15,6 @@ public class HousePoints extends GraphicsProgram {
 	}
 
 	public void init() {
-		
 		// Create a model
 		HousePointsModel model = new HousePointsModel();
 		
