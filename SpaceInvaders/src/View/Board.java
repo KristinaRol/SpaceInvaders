@@ -30,6 +30,7 @@ public class Board extends GCompound {
 		for(Shoot shoot : ship.shoots) {
 			GOval oval = new GOval(shoot.getX(),shoot.getY(),10,10);
 			this.add(oval);
+			System.out.println(ship.shoots.size());
 		}
 	}
 }

@@ -1,6 +1,9 @@
 package Controller;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import Model.Shoot;
 import Model.Spaceship;
@@ -10,11 +13,16 @@ public class InputController extends Thread {
 
 	Spaceship spaceship = new Spaceship(350, 350);
 	Board board = new Board();
-	// [0] is left, [1] is right
-	public boolean[] keyPressed = new boolean[2];
+	// [0] is left, [1] is right, [2] is space
+	//public boolean[] keyPressed = new boolean[3];
+	public HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
 
 	public InputController(Board board) {
 		this.board = board;
+		keyPressed.put(KeyEvent.VK_LEFT, false);
+		keyPressed.put(KeyEvent.VK_RIGHT, false);
+		keyPressed.put(KeyEvent.VK_SPACE, false);
+		keyPressed.put(-1, false);
 	}
 
 	// die Dauerschleife
@@ -22,10 +30,10 @@ public class InputController extends Thread {
 
 		while (true) {
 			// updated the spaceship the whole time
+			move();
 			board.removeAll();
 			board.drawShip(spaceship);
 			board.drawShoots(spaceship);
-			move();
 
 			try {
 				sleep(16);
@@ -48,19 +56,23 @@ public class InputController extends Thread {
 	}
 
 	public void move() {
-		if (keyPressed[0]) {
+		if (keyPressed.get(KeyEvent.VK_LEFT)) {
 			pressedLeft();
 		}
-		if (keyPressed[1]) {
+		if (keyPressed.get(KeyEvent.VK_RIGHT)) {
 			pressedRight();
 		}
-		for (Shoot shoot : spaceship.shoots) {
-			if (shoot.isAlive()) {
-				shoot.setY(-0.001);
-			} else {
-				spaceship.shoots.remove(shoot);
-			}
+		if (keyPressed.get(KeyEvent.VK_SPACE)) {
+			pressedSpace();
 		}
+
+		for (Shoot shoot : spaceship.shoots) {
+			shoot.setY(shoot.getY() - 1.5);
+		}
+		// i don't know what happens here, but the shoots which aren't visible anymore are filtered out
+		spaceship.shoots = (ArrayList<Shoot>) spaceship.shoots.stream().filter(shoot -> shoot.isAlive())
+				.collect(Collectors.toList());
+
 	}
 
 }

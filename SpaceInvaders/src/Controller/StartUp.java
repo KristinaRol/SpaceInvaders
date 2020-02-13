@@ -7,7 +7,7 @@ import acm.program.GraphicsProgram;
 
 //the main method which starts the game
 public class StartUp extends GraphicsProgram {
-	
+
 	InputController inputController;
 
 	public static void main(String[] args) {
@@ -16,7 +16,7 @@ public class StartUp extends GraphicsProgram {
 
 	public void init() {
 
-		//create and add the game board
+		// create and add the game board
 		Board board = new Board();
 		this.inputController = new InputController(board);
 		add(board);
@@ -28,31 +28,16 @@ public class StartUp extends GraphicsProgram {
 		inputController.start();
 	}
 
-	//if key pressed methods in initController move the ship
+	// if key pressed methods in initController move the ship
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-			inputController.keyPressed[0]=true;
-			break;
-		case KeyEvent.VK_RIGHT:
-			inputController.keyPressed[1]=true;
-			break;
-		case KeyEvent.VK_SPACE:
-			inputController.pressedSpace();
-			break;
-		}
+		inputController.keyPressed.put(e.getKeyCode(), true);
 	}
-	
+
+	@Override
 	public void keyReleased(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-			inputController.keyPressed[0]=false;
-			break;
-		case KeyEvent.VK_RIGHT:
-			inputController.keyPressed[1]=false;
-			break;
+		inputController.keyPressed.put(e.getKeyCode(), false);
 		}
-	}
+	
 
 	@Override
 	public void run() {
