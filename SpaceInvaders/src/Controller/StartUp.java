@@ -32,10 +32,24 @@ public class StartUp extends GraphicsProgram {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			inputController.pressedLeft();
+			inputController.keyPressed[0]=true;
 			break;
 		case KeyEvent.VK_RIGHT:
-			inputController.pressedRight();
+			inputController.keyPressed[1]=true;
+			break;
+		case KeyEvent.VK_SPACE:
+			inputController.pressedSpace();
+			break;
+		}
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			inputController.keyPressed[0]=false;
+			break;
+		case KeyEvent.VK_RIGHT:
+			inputController.keyPressed[1]=false;
 			break;
 		}
 	}
