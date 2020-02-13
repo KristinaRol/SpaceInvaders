@@ -1,10 +1,13 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Spaceship {
 	
 	private double x;
 	private double y;
 	private int life;
+	public ArrayList<Shoot> shoots = new ArrayList<Shoot>();
 	
 	public Spaceship (double x, double y) {
 		this.x = x;
@@ -31,4 +34,10 @@ public class Spaceship {
 	public void setLife(int life) {
 		this.life = life;
 	}
+	
+	public void shoot() {
+		Shoot shoot = new Shoot(x, y);
+		shoots.add(shoot);
+	}
+	
 }

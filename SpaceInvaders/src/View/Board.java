@@ -2,8 +2,10 @@ package View;
 
 import java.awt.Color;
 
+import Model.Shoot;
 import Model.Spaceship;
 import acm.graphics.GCompound;
+import acm.graphics.GOval;
 import acm.graphics.GRect;
 
 public class Board extends GCompound {
@@ -22,5 +24,12 @@ public class Board extends GCompound {
 	public void drawShip(Spaceship ship) {
 		GRect rect = new GRect(ship.getX(),ship.getY(),20,20);
 		this.add(rect);
+	}
+
+	public void drawShoots(Spaceship ship) {
+		for(Shoot shoot : ship.shoots) {
+			GOval oval = new GOval(shoot.getX(),shoot.getY(),10,10);
+			this.add(oval);
+		}
 	}
 }
