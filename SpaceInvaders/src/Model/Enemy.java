@@ -5,6 +5,17 @@ public class Enemy {
 	private double x;
 	private double y;
 	private int hitpoints = 10;
+	private Bomb bomb;
+	
+	public Enemy(double x, double y) {
+		initEnemy(x,y);
+	}
+	
+	private void initEnemy(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	protected double getX() {
 		return x;
 	}
