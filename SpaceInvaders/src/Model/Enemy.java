@@ -5,12 +5,13 @@ public class Enemy {
 	private double x;
 	private double y;
 	private int hitpoints = 10;
-	private Bomb bomb;
+	//private Bomb bomb;
 	
 	public Enemy(double x, double y) {
 		initEnemy(x,y);
 	}
 	
+	//wird noch fertig gestellt mit bomb und so
 	private void initEnemy(double x, double y) {
 		this.x = x;
 		this.y = y;

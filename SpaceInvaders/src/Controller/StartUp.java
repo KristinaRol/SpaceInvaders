@@ -1,36 +1,49 @@
 package Controller;
 
-import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
 
+import View.Board;
 import acm.program.GraphicsProgram;
 
+//the main method which starts the game
 public class StartUp extends GraphicsProgram {
 	
+	InputController inputController;
+
 	public static void main(String[] args) {
 		new StartUp().start();
 	}
-	
-	
+
 	public void init() {
 
-        add(new Board());
+		//create and add the game board
+		Board board = new Board();
+		this.inputController = new InputController(board);
+		add(board);
 
-        setTitle("Space Invaders");
-        setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+		setResizable(false);
+		setLocationRelativeTo(null);
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-        setLocationRelativeTo(null);
-    }
-    
-    @Override
-    public void run() {
-    	EventQueue.invokeLater(() -> {
+		addKeyListeners();
+		inputController.start();
+	}
 
-            var ex = new StartUp();
-            ex.setVisible(true);
-        });
-    	super.run();
-    }
+	//if key pressed methods in initController move the ship
+	public void keyPressed(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			inputController.pressedLeft();
+			break;
+		case KeyEvent.VK_RIGHT:
+			inputController.pressedRight();
+			break;
+		}
+	}
+
+	@Override
+	public void run() {
+		init();
+		super.run();
+	}
 
 }
