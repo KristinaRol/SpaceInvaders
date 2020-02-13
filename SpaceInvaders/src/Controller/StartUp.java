@@ -4,10 +4,10 @@ import java.awt.EventQueue;
 
 import acm.program.GraphicsProgram;
 
-public class Main extends GraphicsProgram {
+public class StartUp extends GraphicsProgram {
 	
 	public static void main(String[] args) {
-		new Main().start();
+		new StartUp().start();
 	}
 	
 	
@@ -27,7 +27,7 @@ public class Main extends GraphicsProgram {
     public void run() {
     	EventQueue.invokeLater(() -> {
 
-            var ex = new Main();
+            var ex = new StartUp();
             ex.setVisible(true);
         });
     	super.run();
