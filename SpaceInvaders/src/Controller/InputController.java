@@ -12,7 +12,8 @@ import View.Board;
 public class InputController extends Thread {
 
 	Spaceship spaceship = new Spaceship(350, 350);
-	Board board = new Board();
+	Board board;
+	double startTime;
 	// [0] is left, [1] is right, [2] is space
 	//public boolean[] keyPressed = new boolean[3];
 	public HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
@@ -36,7 +37,7 @@ public class InputController extends Thread {
 			board.drawShoots(spaceship);
 
 			try {
-				sleep(16);
+				sleep( 16 );
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

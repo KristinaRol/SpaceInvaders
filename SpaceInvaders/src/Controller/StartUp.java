@@ -2,6 +2,7 @@ package Controller;
 
 import java.awt.event.KeyEvent;
 
+import Model.Spaceship;
 import View.Board;
 import acm.program.GraphicsProgram;
 
@@ -11,11 +12,17 @@ public class StartUp extends GraphicsProgram {
 	InputController inputController;
 
 	public static void main(String[] args) {
+		
+		
 		new StartUp().start();
 	}
 
+	
+	@SuppressWarnings("deprecation") // Because of resize.
 	public void init() {
-
+		
+		this.resize(Board.WIDTH, Board.WIDTH);
+		
 		// create and add the game board
 		Board board = new Board();
 		this.inputController = new InputController(board);
@@ -41,7 +48,6 @@ public class StartUp extends GraphicsProgram {
 
 	@Override
 	public void run() {
-		init();
 		super.run();
 	}
 
