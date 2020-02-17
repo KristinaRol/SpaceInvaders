@@ -8,15 +8,17 @@ public class Enemy {
 	private double y;
 	private int hitpoints = 10;
 	private Bomb bomb;
+	private int row;
 
-	public Enemy(double x, double y) {
-		initEnemy(x, y);
+	public Enemy(double x, double y, int row) {
+		initEnemy(x, y, row);
 	}
 
 	// wird noch fertig gestellt mit bomb und so
-	private void initEnemy(double x, double y) {
+	private void initEnemy(double x, double y, int row) {
 		this.x = x;
 		this.y = y;
+		this.row = row;
 
 		bomb = new Bomb(x, y);
 	}
@@ -44,6 +46,10 @@ public class Enemy {
 
 	public void setY(double y) {
 		this.y = y;
+	}
+	
+	public int getRow() {
+		return row;
 	}
 
 	protected int getHitpoints() {

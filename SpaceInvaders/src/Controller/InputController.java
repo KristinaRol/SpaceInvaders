@@ -12,9 +12,10 @@ import View.Board;
 
 public class InputController extends Thread {
 
-	Spaceship spaceship = new Spaceship(13, 11);
+	Spaceship spaceship = new Spaceship(13, 12);
 	Enemies enemies = new Enemies(3, 13);
 	Board board;
+	private int counter = 0;
 	double timeOfLastShoot = System.currentTimeMillis();
 	// [0] is left, [1] is right, [2] is space
 	//public boolean[] keyPressed = new boolean[3];
@@ -32,14 +33,21 @@ public class InputController extends Thread {
 	public void run() {
 
 		while (true) {
+			counter = counter % 18;
 			// updated the spaceship the whole time
 			enemies.removeDestroiedEnemies();
 			move();
+			if (counter < 9) {
+				if (counter % 3 == 0) {
+					enemies.move(counter / 3);									
+				}
+			}
 			board.removeAll();
 			board.drawShip(spaceship);
 			board.drawShoots(spaceship);
 			board.drawEnemies(enemies);
-
+			
+			counter++;
 			try {
 				sleep(100);
 			} catch (InterruptedException e) {

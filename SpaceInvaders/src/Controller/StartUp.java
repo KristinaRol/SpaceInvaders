@@ -19,9 +19,18 @@ public class StartUp extends GraphicsProgram {
 	
 	public void init() {
 		
-		this.setSize(Board.BASE_WIDTH * Board.MULTIPLIER, Board.BASE_HEIGHT * Board.MULTIPLIER);
+		this.setSize(Board.BASE_WIDTH * Board.MULTIPLIER + 16, Board.BASE_HEIGHT * Board.MULTIPLIER + 63);
 		
-		
+		/*
+		System.out.println("Frame Size   : " + this.getSize() );
+        System.out.println("Frame Insets : " + this.getInsets() );
+        System.out.println("Content Size : " + this.getContentPane().getSize() );
+     	*/
+        
+        
+        //int delta = getSize().height - getCentralRegionSize().height;
+        
+        //this.setSize(getSize().width, Board.BASE_HEIGHT * Board.MULTIPLIER + delta);
 		
 		// create and add the game board
 		Board board = new Board();
