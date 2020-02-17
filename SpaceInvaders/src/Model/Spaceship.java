@@ -2,17 +2,27 @@ package Model;
 
 import java.util.ArrayList;
 
+import View.Board;
+import View.BoardFancy;
+
 public class Spaceship {
 	
 	private double x;
 	private double y;
 	private int life;
 	public ArrayList<Shoot> shoots = new ArrayList<Shoot>();
+
+
+	public Spaceship(BoardFancy board) {
+		this.x = 50;
+		this.y = 75;
+		this.life = 3;
+	}
 	
-	public Spaceship (double x, double y) {
-		this.x = x;
-		this.y = y;
-		this.life = 5;
+	public Spaceship(Board board) {
+		this.x = 13;
+		this.y = 12;
+		this.life = 3;
 	}
 
 

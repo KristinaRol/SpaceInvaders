@@ -8,6 +8,7 @@ import Model.Enemy;
 import Model.Shoot;
 import Model.Spaceship;
 import acm.graphics.GCompound;
+import acm.graphics.GPoint;
 import acm.graphics.GRect;
 
 public class Board extends GCompound {
@@ -17,9 +18,6 @@ public class Board extends GCompound {
 	public final static int MULTIPLIER = 50;
 	private GRect background;
 	Spaceship player;
-	
-	public Board() {
-	}
 	
 	//draws spaceship as a rectangle
 	public void drawShip(Spaceship ship) {
@@ -86,5 +84,20 @@ public class Board extends GCompound {
 			oval.setColor(Color.YELLOW);
 			add(oval);
 		}
+	}
+	public double getVelocityMultiplier() {
+		return 0;
+	}
+	public int getBaseWidth() {
+		return  BASE_WIDTH;
+	}
+	public int getIntWidth() {
+		return BASE_WIDTH * MULTIPLIER + 16;
+	}
+	public int getIntHeight() {
+		return BASE_HEIGHT * MULTIPLIER + 63;
+	}
+	public double getMaxXFromShip() {
+		return BASE_WIDTH-1;
 	}
 }

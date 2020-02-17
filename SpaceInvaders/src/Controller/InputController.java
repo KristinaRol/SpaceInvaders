@@ -9,16 +9,16 @@ import Model.Enemies;
 import Model.Shoot;
 import Model.Spaceship;
 import View.Board;
+import View.BoardFancy;
 
 public class InputController extends Thread {
 
-	Spaceship spaceship = new Spaceship(13, 12);
 	Enemies enemies = new Enemies(3, 13);
 	Board board;
+	//BoardFancy board;
+	Spaceship spaceship = new Spaceship(board); 
 	private int counter = 0;
 	double timeOfLastShoot = System.currentTimeMillis();
-	// [0] is left, [1] is right, [2] is space
-	//public boolean[] keyPressed = new boolean[3];
 	public HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
 
 	public InputController(Board board) {
@@ -57,11 +57,11 @@ public class InputController extends Thread {
 	}
 
 	public void pressedLeft() {
-		spaceship.setX(spaceship.getX() - 1);
+		spaceship.setX(spaceship.getX() - 1 -board.getVelocityMultiplier());
 	}
 
 	public void pressedRight() {
-		spaceship.setX(spaceship.getX() + 1);
+		spaceship.setX(spaceship.getX() + 1 +board.getVelocityMultiplier());
 	}
 
 	public void pressedSpace() {
@@ -78,7 +78,7 @@ public class InputController extends Thread {
 			}
 		}
 		if (keyPressed.get(KeyEvent.VK_RIGHT)) {
-			if (spaceship.getX() < Board.BASE_WIDTH - 1) {
+			if (spaceship.getX() < board.getMaxXFromShip()) {
 				pressedRight();				
 			}
 		}
@@ -87,8 +87,8 @@ public class InputController extends Thread {
 		}
 
 		for (Shoot shoot : spaceship.shoots) {
-			shoot.setY(shoot.getY() - 1);
-			if (shoot.hitsEnemy(enemies)) {
+			shoot.setY(shoot.getY() - 1 -board.getVelocityMultiplier());
+			if (shoot.hitsEnemy(enemies, board)) {
 				shoot.setY(-5);
 			}
 		}

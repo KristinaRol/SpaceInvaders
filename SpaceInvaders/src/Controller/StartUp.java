@@ -3,6 +3,7 @@ package Controller;
 import java.awt.event.KeyEvent;
 
 import View.Board;
+import View.BoardFancy;
 import acm.program.GraphicsProgram;
 
 //the main method which starts the game
@@ -19,8 +20,6 @@ public class StartUp extends GraphicsProgram {
 	
 	public void init() {
 		
-		this.setSize(Board.BASE_WIDTH * Board.MULTIPLIER + 16, Board.BASE_HEIGHT * Board.MULTIPLIER + 63);
-		
 		/*
 		System.out.println("Frame Size   : " + this.getSize() );
         System.out.println("Frame Insets : " + this.getInsets() );
@@ -34,10 +33,12 @@ public class StartUp extends GraphicsProgram {
 		
 		// create and add the game board
 		Board board = new Board();
+		//BoardFancy board = new BoardFancy();
+		this.setSize(board.getIntWidth(), board.getIntHeight());
 		this.inputController = new InputController(board);
 		add(board);
 
-		//setResizable(false);
+		setResizable(false);
 		setLocationRelativeTo(null);
 
 		addKeyListeners();

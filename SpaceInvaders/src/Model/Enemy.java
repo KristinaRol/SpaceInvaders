@@ -7,29 +7,16 @@ public class Enemy {
 	private double x;
 	private double y;
 	private int hitpoints = 10;
-	private Bomb bomb;
 	private int row;
 
 	public Enemy(double x, double y, int row) {
 		initEnemy(x, y, row);
 	}
 
-	// wird noch fertig gestellt mit bomb und so
 	private void initEnemy(double x, double y, int row) {
 		this.x = x;
 		this.y = y;
 		this.row = row;
-
-		bomb = new Bomb(x, y);
-	}
-
-	public void move(double y) {
-		this.y += y;
-	}
-
-
-	public Bomb getBomb() {
-		return bomb;
 	}
 
 	public double getX() {
@@ -62,27 +49,6 @@ public class Enemy {
 	
 	public void remove() {
 		hitpoints = 0;
-	}
-
-	public class Bomb {
-		private boolean destroyed = false;
-		double x, y;
-
-		public Bomb(double x, double y) {
-			setDestroyed(true);
-			this.x = x;
-			this.y = y;
-		}
-		
-		public void setDestroyed(boolean destroyed) {
-
-            this.destroyed = destroyed;
-        }
-
-        public boolean isDestroyed() {
-
-            return destroyed;
-        }
 	}
 
 }
