@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import Model.Enemies;
 import Model.Shoot;
 import Model.Spaceship;
 import View.Board;
@@ -12,8 +13,9 @@ import View.Board;
 public class InputController extends Thread {
 
 	Spaceship spaceship = new Spaceship(350, 350);
+	Enemies enemies = new Enemies(3, 7);
 	Board board;
-	double startTime;
+	double timeOfLastShoot = System.currentTimeMillis();
 	// [0] is left, [1] is right, [2] is space
 	//public boolean[] keyPressed = new boolean[3];
 	public HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
@@ -35,6 +37,7 @@ public class InputController extends Thread {
 			board.removeAll();
 			board.drawShip(spaceship);
 			board.drawShoots(spaceship);
+			board.drawEnemies(enemies);
 
 			try {
 				sleep( 16 );
@@ -53,7 +56,10 @@ public class InputController extends Thread {
 	}
 
 	public void pressedSpace() {
-		spaceship.shoot();
+		if (System.currentTimeMillis() - timeOfLastShoot > 750) {
+			spaceship.shoot();
+			timeOfLastShoot = System.currentTimeMillis();
+		}
 	}
 
 	public void move() {
