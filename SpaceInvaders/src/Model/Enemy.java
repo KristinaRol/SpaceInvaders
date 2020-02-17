@@ -53,6 +53,10 @@ public class Enemy {
 	protected void setHitpoints(int hitpoints) {
 		this.hitpoints = hitpoints;
 	}
+	
+	public void remove() {
+		hitpoints = 0;
+	}
 
 	public class Bomb {
 		private boolean destroyed = false;

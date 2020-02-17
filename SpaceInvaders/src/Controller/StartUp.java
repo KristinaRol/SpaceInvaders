@@ -2,7 +2,6 @@ package Controller;
 
 import java.awt.event.KeyEvent;
 
-import Model.Spaceship;
 import View.Board;
 import acm.program.GraphicsProgram;
 
@@ -18,17 +17,18 @@ public class StartUp extends GraphicsProgram {
 	}
 
 	
-	@SuppressWarnings("deprecation") // Because of resize.
 	public void init() {
 		
-		this.resize(Board.WIDTH, Board.WIDTH);
+		this.setSize(Board.BASE_WIDTH * Board.MULTIPLIER, Board.BASE_HEIGHT * Board.MULTIPLIER);
+		
+		
 		
 		// create and add the game board
 		Board board = new Board();
 		this.inputController = new InputController(board);
 		add(board);
 
-		setResizable(false);
+		//setResizable(false);
 		setLocationRelativeTo(null);
 
 		addKeyListeners();

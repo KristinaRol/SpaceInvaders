@@ -12,8 +12,8 @@ import View.Board;
 
 public class InputController extends Thread {
 
-	Spaceship spaceship = new Spaceship(350, 350);
-	Enemies enemies = new Enemies(3, 7);
+	Spaceship spaceship = new Spaceship(13, 11);
+	Enemies enemies = new Enemies(3, 13);
 	Board board;
 	double timeOfLastShoot = System.currentTimeMillis();
 	// [0] is left, [1] is right, [2] is space
@@ -33,6 +33,7 @@ public class InputController extends Thread {
 
 		while (true) {
 			// updated the spaceship the whole time
+			enemies.removeDestroiedEnemies();
 			move();
 			board.removeAll();
 			board.drawShip(spaceship);
@@ -40,7 +41,7 @@ public class InputController extends Thread {
 			board.drawEnemies(enemies);
 
 			try {
-				sleep( 16 );
+				sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -48,11 +49,11 @@ public class InputController extends Thread {
 	}
 
 	public void pressedLeft() {
-		spaceship.setX(spaceship.getX() - 12);
+		spaceship.setX(spaceship.getX() - 1);
 	}
 
 	public void pressedRight() {
-		spaceship.setX(spaceship.getX() + 12);
+		spaceship.setX(spaceship.getX() + 1);
 	}
 
 	public void pressedSpace() {
@@ -64,17 +65,24 @@ public class InputController extends Thread {
 
 	public void move() {
 		if (keyPressed.get(KeyEvent.VK_LEFT)) {
-			pressedLeft();
+			if (spaceship.getX() > 0) {
+				pressedLeft();				
+			}
 		}
 		if (keyPressed.get(KeyEvent.VK_RIGHT)) {
-			pressedRight();
+			if (spaceship.getX() < Board.BASE_WIDTH - 1) {
+				pressedRight();				
+			}
 		}
 		if (keyPressed.get(KeyEvent.VK_SPACE)) {
 			pressedSpace();
 		}
 
 		for (Shoot shoot : spaceship.shoots) {
-			shoot.setY(shoot.getY() - 1.5);
+			shoot.setY(shoot.getY() - 1);
+			if (shoot.hitsEnemy(enemies)) {
+				shoot.setY(-5);
+			}
 		}
 		// i don't know what happens here, but the shoots which aren't visible anymore are filtered out
 		spaceship.shoots = (ArrayList<Shoot>) spaceship.shoots.stream().filter(shoot -> shoot.isAlive())

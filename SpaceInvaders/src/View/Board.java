@@ -8,14 +8,13 @@ import Model.Enemy;
 import Model.Shoot;
 import Model.Spaceship;
 import acm.graphics.GCompound;
-import acm.graphics.GOval;
 import acm.graphics.GRect;
 
 public class Board extends GCompound {
 	
-	public final static int WIDTH = 600;
-	public final static int HEIGHT = 600;
-	public final static int ENEMY_SIZE = 30;
+	public final static int BASE_WIDTH = 28;
+	public final static int BASE_HEIGHT = 14;
+	public final static int MULTIPLIER = 50;
 	private GRect background;
 	
 	public Board() {
@@ -24,7 +23,7 @@ public class Board extends GCompound {
 	//draws spaceship as a rectangle
 	public void drawShip(Spaceship ship) {
 		drawBackground();
-		GRect rect = new GRect(ship.getX() - 10,ship.getY() - 10,20,20);
+		GRect rect = new GRect(ship.getX() * MULTIPLIER, ship.getY() * MULTIPLIER, MULTIPLIER, MULTIPLIER);
 		rect.setFilled(true);
 		rect.setColor(Color.GREEN);
 		add(rect);
@@ -38,14 +37,14 @@ public class Board extends GCompound {
 	}
 	
 	public void drawEnemy(Enemy enemy) {
-		GRect rect = new GRect(enemy.getX() - ENEMY_SIZE / 2, enemy.getY() - (ENEMY_SIZE / 2), ENEMY_SIZE, ENEMY_SIZE);
+		GRect rect = new GRect(enemy.getX() * MULTIPLIER, enemy.getY() * MULTIPLIER, MULTIPLIER, MULTIPLIER);
 		rect.setFilled(true);
 		rect.setColor(Color.RED);
 		add(rect);
 	}
 	
 	private void drawBackground() {
-		background = new GRect(WIDTH, HEIGHT);
+		background = new GRect(BASE_WIDTH * MULTIPLIER, BASE_HEIGHT * MULTIPLIER);
 		background.setFilled(true);
 		background.setColor(Color.BLACK);
 		add(background);
@@ -53,11 +52,10 @@ public class Board extends GCompound {
 
 	public void drawShoots(Spaceship ship) {
 		for(Shoot shoot : ship.shoots) {
-			GOval oval = new GOval(shoot.getX() - 5,shoot.getY() - 5,10,10);
+			GRect oval = new GRect(shoot.getX() * MULTIPLIER, shoot.getY() * MULTIPLIER, MULTIPLIER, MULTIPLIER);
 			oval.setFilled(true);
-			oval.setColor(Color.WHITE);
+			oval.setColor(Color.YELLOW);
 			add(oval);
-			System.out.println(ship.shoots.size());
 		}
 	}
 }

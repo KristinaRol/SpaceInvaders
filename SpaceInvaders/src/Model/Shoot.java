@@ -2,7 +2,7 @@ package Model;
 
 public class Shoot {
 
-	double x, y;
+	private double x, y;
 	
 	public Shoot(double x, double y) {
 		this.x = x;
@@ -23,6 +23,21 @@ public class Shoot {
 	}
 
 	public boolean isAlive() {
-		return y>0;
+		return y>-2;
+	}
+	
+	public boolean hitsEnemy(Enemies enemies) {
+		
+		for (Enemy enemy : enemies.getEnemmyList()) {
+			if (x == enemy.getX()) {
+				if (y == enemy.getY()) {
+					enemy.remove();
+					return true;
+				}
+			}
+		}
+		
+		
+		return false;
 	}
 }
