@@ -31,7 +31,6 @@ public class StartUp extends GraphicsProgram {
 		
 		//lightHouse.initDisplay();
 		
-		//BoardFancy board = new BoardFancy();
 		Spaceship player = new Spaceship();
 		Enemies enemies = new Enemies(3, 13);
 		this.setSize(player.getIntWidth(), player.getIntHeight());

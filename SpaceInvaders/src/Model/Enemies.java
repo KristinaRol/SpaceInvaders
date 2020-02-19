@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public class Enemies {
 
 	private ArrayList<Enemy> enemyList = new ArrayList<>();
+	private ArrayList<Bomb> bombList = new ArrayList<>();
 	private boolean direction = true;
+	
 
 	public Enemies(int rows, int columns) {
 
@@ -88,5 +90,55 @@ public class Enemies {
 		
 		return false;
 	}
+	
+	
+	
+	
+	public void removeInvisbleBombs() {
+		@SuppressWarnings("unchecked")
+		ArrayList<Bomb> bombCheckList = (ArrayList<Bomb>) bombList.clone();
+		for(Bomb bomb : bombCheckList) {
+			if (!bomb.isVisible()) {
+				bombList.remove(bomb);
+			}
+		}
+	}
+
+	public void moveBombs() {
+		for(Bomb bomb : bombList) {
+			bomb.move();
+		}
+	}
+
+	public void hitsPlayer(Spaceship player) {
+		if (killPlayer(player)) {
+			player.setLife(0);
+			return;
+		}
+		
+		for(Bomb bomb : bombList) {
+			if (bomb.getX() == player.getX() && bomb.getY() == player.getY()) {
+				player.setLife(player.getLife() - 1);
+			}
+		}
+	}
+
+	public void createBomb() {
+		int rand = (int) (Math.random() * 12);
+		
+		if (rand == 0) {
+			rand = (int) (Math.random() * enemyList.size());
+			if (enemyList.size() > 0) {
+				Bomb bomb = new Bomb(enemyList.get(rand).getX() , enemyList.get(rand).getY());
+				bombList.add(bomb);				
+			}
+		}
+	}
+	
+	
+	public ArrayList<Bomb> getBombs() {
+		return bombList;
+	}
+	
 
 }

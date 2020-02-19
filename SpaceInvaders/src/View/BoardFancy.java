@@ -3,6 +3,7 @@ package View;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import Model.Bomb;
 import Model.Enemies;
 import Model.Enemy;
 import Model.Shoot;
@@ -15,11 +16,11 @@ import acm.graphics.GRect;
 public class BoardFancy extends GCompound implements View {
 	
 	private GRect background;
-	Spaceship player;
-	Enemies enemies;
-	GImage img = new GImage("Spaceship.png");
-	GImage heart = new GImage("heart.png");
-	GImage alien = new GImage("alien.png");
+	private Spaceship player;
+	private Enemies enemies;
+	private GImage img = new GImage("Spaceship.png");
+	private GImage heart = new GImage("heart.png");
+	private GImage alien = new GImage("alien.png");
 	
 	
 	
@@ -32,8 +33,12 @@ public class BoardFancy extends GCompound implements View {
 		drawBackground();
 		drawShip();
 		drawShoots(player);
+		drawBombs();
 		drawEnemies();
 		drawLife();
+		
+		losingScreen();
+		winningScreen();
 	}
 	
 	
@@ -78,12 +83,46 @@ public class BoardFancy extends GCompound implements View {
 			add(oval);
 		}
 	}
+	
+
+	public void drawBombs() {
+		for(Bomb bomb : enemies.getBombs()) {
+			GRect bombRect = new GRect(bomb.getX() * Spaceship.MULTIPLIER, bomb.getY() * Spaceship.MULTIPLIER, Spaceship.MULTIPLIER, Spaceship.MULTIPLIER);
+			bombRect.setFilled(true);
+			bombRect.setColor(Color.ORANGE);
+			add(bombRect);
+		}
+	}
+	
 
 	public void drawLife() {
 		for(int i = 0; i < player.getLife(); i++) {
 		GImage heart = new GImage(this.heart.getImage());
 		heart.setLocation((player.getBaseWidth() - 4 + i) * Spaceship.MULTIPLIER, (player.getBaseHeight() - 1) * Spaceship.MULTIPLIER);
 		add(heart);
+		}
+	}
+	
+	
+	
+	private void winningScreen() {
+		
+		if (player.won()) {
+			background = new GRect(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
+			background.setFilled(true);
+			background.setColor(Color.GREEN);
+			add(background);			
+		}
+		
+	}
+	
+	private void losingScreen() {
+		
+		if (player.lost()) {
+			background = new GRect(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
+			background.setFilled(true);
+			background.setColor(Color.RED);
+			add(background);			
 		}
 		
 	}

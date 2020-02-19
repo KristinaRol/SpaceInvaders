@@ -16,9 +16,8 @@ import View.LHView;
 public class InputController extends Thread implements KeyListener {
 
 	private Enemies enemies;
-	//Bord board;
 	private BoardFancy board;
-	//BoardFancy board;
+	//private Board board;
 	private Spaceship spaceship;
 	private LHView lightHouse;
 	private int counter = 0;
@@ -45,11 +44,21 @@ public class InputController extends Thread implements KeyListener {
 			counter = counter % 18;
 			// updated the spaceship the whole time
 			enemies.removeDestroiedEnemies();
+			enemies.removeInvisbleBombs();
+			enemies.moveBombs();
+			enemies.createBomb();
+			spaceship.shootEnemy(enemies);
 			move();
+			enemies.hitsPlayer(spaceship);
+			spaceship.checkGameState(enemies);
+			spaceship.removeExplosions();
+			if (counter % 3 == 0) {
+				spaceship.nextStateExplosion();				
+			}
 			
 			if (counter < 9) {
 				if (counter % 3 == 0) {
-					enemies.move(counter / 3);									
+					enemies.move(counter / 3);	
 				}
 			}
 			
@@ -81,12 +90,6 @@ public class InputController extends Thread implements KeyListener {
 			}
 		}
 
-		for (Shoot shoot : spaceship.shoots) {
-			shoot.setY((int) (shoot.getY() - 1 - spaceship.getVelocityMultiplier()));
-			if (shoot.hitsEnemy(enemies)) {
-				shoot.setY(-5);
-			}
-		}
 		// i don't know what happens here, but the shoots which aren't visible anymore are filtered out
 		spaceship.shoots = (ArrayList<Shoot>) spaceship.shoots.stream().filter(shoot -> shoot.isAlive())
 				.collect(Collectors.toList());

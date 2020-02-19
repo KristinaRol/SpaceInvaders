@@ -12,7 +12,11 @@ public class Spaceship {
 	private int y;
 	private int life;
 	
-	public ArrayList<Shoot> shoots = new ArrayList<Shoot>();
+	//-1 = lose, 0 = normal, 1 = win.
+	private int winLose = 0;
+	
+	public ArrayList<Shoot> shoots = new ArrayList<>();
+	public ArrayList<Explosion> explosionList = new ArrayList<>();
 
 
 	
@@ -43,6 +47,60 @@ public class Spaceship {
 	
 	
 	
+	public void shootEnemy(Enemies enemies) {
+		for (Shoot shoot : shoots) {
+			shoot.setY(shoot.getY() - 1);
+			if (shoot.hitsEnemy(enemies)) {
+				
+				Explosion explosion = new Explosion(shoot.getX(), shoot.getY());
+				explosionList.add(explosion);
+				
+				shoot.setY(-5);
+			}
+		}
+	}
+	
+	
+	
+	public void checkGameState(Enemies enemies) {
+		
+		if (enemies.areAllDead()) {
+			winLose = 1;
+		}
+		else if (life <= 0) {
+			winLose = -1;
+		}
+	}
+
+	
+	public boolean won() {
+		return winLose == 1;
+	}
+
+	public boolean lost() {
+		return winLose == -1;
+	}
+	
+	
+	
+	public void nextStateExplosion() {
+		for(Explosion explosion : explosionList) {
+			explosion.nextState();
+		}
+	}
+
+	public void removeExplosions() {
+		@SuppressWarnings("unchecked")
+		ArrayList<Explosion> explosionCheckList = (ArrayList<Explosion>) explosionList.clone();
+		for(Explosion explosion : explosionCheckList) {
+			if (explosion.getState() > 3) {
+				explosionList.remove(explosion);
+			} 
+		}
+	}
+	
+	
+	
 	public int getX() {
 		return x;
 	}
@@ -61,7 +119,9 @@ public class Spaceship {
 	public void setLife(int life) {
 		this.life = life;
 	}
-	
+	public ArrayList<Explosion> getExplosions() {
+		return explosionList;
+	}
 
 	public double getVelocityMultiplier() {
 		return 0;
@@ -81,5 +141,8 @@ public class Spaceship {
 	public double getMaxXFromShip() {
 		return BASE_WIDTH-1;
 	}
+
+
+
 	
 }

@@ -4,20 +4,20 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Model.Bomb;
 import Model.Enemies;
 import Model.Enemy;
 import Model.Shoot;
 import Model.Spaceship;
-import acm.graphics.GRect;
 import de.cau.infprogoo.lighthouse.LighthouseDisplay;
 
 public class LHView implements View{
 
-	Spaceship player;
-	Enemies enemies;
+	private Spaceship player;
+	private Enemies enemies;
 	
-	byte[] data = new byte[28*14*3];
-	LighthouseDisplay display = null;
+	private byte[] data = new byte[28*14*3];
+	private LighthouseDisplay display = null;
 	
 	
 	@Override
@@ -30,6 +30,7 @@ public class LHView implements View{
 		insertColorInData(player.getX(), player.getY(), Color.GREEN);
 		drawEnemies();
 		drawShoot();
+		drawBombs();
 		
 		sendToDisplay();
 	}
@@ -52,6 +53,13 @@ public class LHView implements View{
 		for(Shoot shoot : player.shoots) {
 			insertColorInData(shoot.getX(), shoot.getY(), Color.YELLOW);
 			
+		}
+	}
+	
+	
+	public void drawBombs() {
+		for(Bomb bomb : enemies.getBombs()) {
+			insertColorInData(bomb.getX(), bomb.getY(), Color.ORANGE);
 		}
 	}
 	
