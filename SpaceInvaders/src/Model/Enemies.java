@@ -2,8 +2,6 @@ package Model;
 
 import java.util.ArrayList;
 
-import View.Board;
-
 public class Enemies {
 
 	private ArrayList<Enemy> enemyList = new ArrayList<>();
@@ -64,7 +62,7 @@ public class Enemies {
 					}
 				}
 				else {
-					if (enemy.getX() == Board.BASE_WIDTH - 1) {
+					if (enemy.getX() == Spaceship.BASE_WIDTH - 1) {
 						direction = true;
 						lowerByOne();
 					}

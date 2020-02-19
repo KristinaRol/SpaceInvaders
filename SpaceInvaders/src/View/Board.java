@@ -8,31 +8,47 @@ import Model.Enemy;
 import Model.Shoot;
 import Model.Spaceship;
 import acm.graphics.GCompound;
-import acm.graphics.GPoint;
 import acm.graphics.GRect;
 
-public class Board extends GCompound {
+public class Board extends GCompound implements View {
 	
-	public final static int BASE_WIDTH = 28;
-	public final static int BASE_HEIGHT = 14;
-	public final static int MULTIPLIER = 50;
 	private GRect background;
 	Spaceship player;
+	Enemies enemies;
+	
+	
+	public void newFrame(Spaceship player, Enemies enemies) {
+		this.player = player;
+		this.enemies = enemies;
+		
+		removeAll();
+		
+		drawBackground();
+		drawShip();
+		drawShoots(player);
+		drawEnemies();
+		winningScreen();
+		losingScreen();
+	}
+
+	
+	private void drawBackground() {
+		background = new GRect(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
+		background.setFilled(true);
+		background.setColor(Color.BLACK);
+		add(background);
+	}
+	
 	
 	//draws spaceship as a rectangle
-	public void drawShip(Spaceship ship) {
-		player = ship;
-		drawBackground();
-		GRect rect = new GRect(ship.getX() * MULTIPLIER, ship.getY() * MULTIPLIER, MULTIPLIER, MULTIPLIER);
+	public void drawShip() {
+		GRect rect = new GRect(player.getX() * Spaceship.MULTIPLIER, player.getY() * Spaceship.MULTIPLIER, Spaceship.MULTIPLIER, Spaceship.MULTIPLIER);
 		rect.setFilled(true);
 		rect.setColor(Color.GREEN);
 		add(rect);
 	}
 	
-	public void drawEnemies(Enemies enemies) {
-		
-		winningScreen(enemies);
-		losingScreen(enemies);
+	public void drawEnemies() {
 		
 		ArrayList<Enemy> enemyList = enemies.getEnemmyList();
 		for(Enemy enemy :enemyList ) {
@@ -41,24 +57,16 @@ public class Board extends GCompound {
 	}
 	
 	public void drawEnemy(Enemy enemy) {
-		GRect rect = new GRect(enemy.getX() * MULTIPLIER, enemy.getY() * MULTIPLIER, MULTIPLIER, MULTIPLIER);
+		GRect rect = new GRect(enemy.getX() * Spaceship.MULTIPLIER, enemy.getY() * Spaceship.MULTIPLIER, Spaceship.MULTIPLIER, Spaceship.MULTIPLIER);
 		rect.setFilled(true);
 		rect.setColor(Color.RED);
 		add(rect);
 	}
 	
-	private void drawBackground() {
-		background = new GRect(BASE_WIDTH * MULTIPLIER, BASE_HEIGHT * MULTIPLIER);
-		background.setFilled(true);
-		background.setColor(Color.BLACK);
-		add(background);
-	}
-	
-	private void winningScreen(Enemies enemies) {
-		
+	private void winningScreen() {
 		
 		if (enemies.areAllDead()) {
-			background = new GRect(BASE_WIDTH * MULTIPLIER, BASE_HEIGHT * MULTIPLIER);
+			background = new GRect(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
 			background.setFilled(true);
 			background.setColor(Color.GREEN);
 			add(background);			
@@ -66,10 +74,10 @@ public class Board extends GCompound {
 		
 	}
 	
-	private void losingScreen(Enemies enemies) {
+	private void losingScreen() {
 		
 		if (enemies.killPlayer(player)) {
-			background = new GRect(BASE_WIDTH * MULTIPLIER, BASE_HEIGHT * MULTIPLIER);
+			background = new GRect(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
 			background.setFilled(true);
 			background.setColor(Color.RED);
 			add(background);			
@@ -79,25 +87,12 @@ public class Board extends GCompound {
 
 	public void drawShoots(Spaceship ship) {
 		for(Shoot shoot : ship.shoots) {
-			GRect oval = new GRect(shoot.getX() * MULTIPLIER, shoot.getY() * MULTIPLIER, MULTIPLIER, MULTIPLIER);
+			GRect oval = new GRect(shoot.getX() * Spaceship.MULTIPLIER, shoot.getY() * Spaceship.MULTIPLIER, Spaceship.MULTIPLIER, Spaceship.MULTIPLIER);
 			oval.setFilled(true);
 			oval.setColor(Color.YELLOW);
 			add(oval);
 		}
 	}
-	public double getVelocityMultiplier() {
-		return 0;
-	}
-	public int getBaseWidth() {
-		return  BASE_WIDTH;
-	}
-	public int getIntWidth() {
-		return BASE_WIDTH * MULTIPLIER + 16;
-	}
-	public int getIntHeight() {
-		return BASE_HEIGHT * MULTIPLIER + 63;
-	}
-	public double getMaxXFromShip() {
-		return BASE_WIDTH-1;
-	}
+	
+	
 }

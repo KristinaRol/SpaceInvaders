@@ -1,6 +1,7 @@
 package Controller;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -10,18 +11,26 @@ import Model.Shoot;
 import Model.Spaceship;
 import View.Board;
 import View.BoardFancy;
+import View.LHView;
 
-public class InputController extends Thread {
+public class InputController extends Thread implements KeyListener {
 
-	Enemies enemies = new Enemies(3, 13);
-	Board board;
+	private Enemies enemies;
+	//Bord board;
+	private BoardFancy board;
 	//BoardFancy board;
-	Spaceship spaceship = new Spaceship(board); 
+	private Spaceship spaceship;
+	private LHView lightHouse;
 	private int counter = 0;
-	double timeOfLastShoot = System.currentTimeMillis();
-	public HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
+	private double timeOfLastShoot = System.currentTimeMillis();
+	private HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
 
-	public InputController(Board board) {
+	public InputController(BoardFancy board, LHView lightHouse, Spaceship player, Enemies enemies) {
+		
+		this.spaceship = player;
+		this.enemies = enemies;
+		this.lightHouse = lightHouse;
+		
 		this.board = board;
 		keyPressed.put(KeyEvent.VK_LEFT, false);
 		keyPressed.put(KeyEvent.VK_RIGHT, false);
@@ -37,17 +46,17 @@ public class InputController extends Thread {
 			// updated the spaceship the whole time
 			enemies.removeDestroiedEnemies();
 			move();
+			
 			if (counter < 9) {
 				if (counter % 3 == 0) {
 					enemies.move(counter / 3);									
 				}
 			}
-			board.removeAll();
-			board.drawShip(spaceship);
-			board.drawShoots(spaceship);
-			board.drawEnemies(enemies);
 			
+			board.newFrame(spaceship, enemies);
+			//lightHouse.newFrame(spaceship, enemies);
 			counter++;
+			
 			try {
 				sleep(100);
 			} catch (InterruptedException e) {
@@ -56,39 +65,25 @@ public class InputController extends Thread {
 		}
 	}
 
-	public void pressedLeft() {
-		spaceship.setX(spaceship.getX() - 1 -board.getVelocityMultiplier());
-	}
 
-	public void pressedRight() {
-		spaceship.setX(spaceship.getX() + 1 +board.getVelocityMultiplier());
-	}
-
-	public void pressedSpace() {
-		if (System.currentTimeMillis() - timeOfLastShoot > 750) {
-			spaceship.shoot();
-			timeOfLastShoot = System.currentTimeMillis();
-		}
-	}
 
 	public void move() {
 		if (keyPressed.get(KeyEvent.VK_LEFT)) {
-			if (spaceship.getX() > 0) {
-				pressedLeft();				
-			}
+			spaceship.moveLeft();
 		}
 		if (keyPressed.get(KeyEvent.VK_RIGHT)) {
-			if (spaceship.getX() < board.getMaxXFromShip()) {
-				pressedRight();				
-			}
+			spaceship.moveRight();
 		}
 		if (keyPressed.get(KeyEvent.VK_SPACE)) {
-			pressedSpace();
+			if (System.currentTimeMillis() - timeOfLastShoot > 750) {
+				spaceship.shoot();
+				timeOfLastShoot = System.currentTimeMillis();
+			}
 		}
 
 		for (Shoot shoot : spaceship.shoots) {
-			shoot.setY(shoot.getY() - 1 -board.getVelocityMultiplier());
-			if (shoot.hitsEnemy(enemies, board)) {
+			shoot.setY((int) (shoot.getY() - 1 - spaceship.getVelocityMultiplier()));
+			if (shoot.hitsEnemy(enemies)) {
 				shoot.setY(-5);
 			}
 		}
@@ -96,6 +91,19 @@ public class InputController extends Thread {
 		spaceship.shoots = (ArrayList<Shoot>) spaceship.shoots.stream().filter(shoot -> shoot.isAlive())
 				.collect(Collectors.toList());
 
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	public void keyPressed(KeyEvent e) {
+		keyPressed.put(e.getKeyCode(), true);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		keyPressed.put(e.getKeyCode(), false);
 	}
 
 }

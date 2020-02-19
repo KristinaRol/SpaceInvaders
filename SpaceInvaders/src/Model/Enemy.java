@@ -1,37 +1,35 @@
 package Model;
 
-import javax.swing.ImageIcon;
-
 public class Enemy {
 
-	private double x;
-	private double y;
+	private int x;
+	private int y;
 	private int hitpoints = 10;
 	private int row;
 
-	public Enemy(double x, double y, int row) {
+	public Enemy(int x, int y, int row) {
 		initEnemy(x, y, row);
 	}
 
-	private void initEnemy(double x, double y, int row) {
+	private void initEnemy(int x, int y, int row) {
 		this.x = x;
 		this.y = y;
 		this.row = row;
 	}
 
-	public double getX() {
+	public int getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public int getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 	

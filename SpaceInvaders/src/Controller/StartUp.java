@@ -1,9 +1,10 @@
 package Controller;
 
-import java.awt.event.KeyEvent;
-
+import Model.Enemies;
+import Model.Spaceship;
 import View.Board;
 import View.BoardFancy;
+import View.LHView;
 import acm.program.GraphicsProgram;
 
 //the main method which starts the game
@@ -19,42 +20,31 @@ public class StartUp extends GraphicsProgram {
 
 	
 	public void init() {
-		
-		/*
-		System.out.println("Frame Size   : " + this.getSize() );
-        System.out.println("Frame Insets : " + this.getInsets() );
-        System.out.println("Content Size : " + this.getContentPane().getSize() );
-     	*/
-        
-        
         //int delta = getSize().height - getCentralRegionSize().height;
         
         //this.setSize(getSize().width, Board.BASE_HEIGHT * Board.MULTIPLIER + delta);
 		
 		// create and add the game board
-		Board board = new Board();
+		//Board board = new Board();
+		BoardFancy board = new BoardFancy();
+		LHView lightHouse = new LHView();
+		
+		//lightHouse.initDisplay();
+		
 		//BoardFancy board = new BoardFancy();
-		this.setSize(board.getIntWidth(), board.getIntHeight());
-		this.inputController = new InputController(board);
+		Spaceship player = new Spaceship();
+		Enemies enemies = new Enemies(3, 13);
+		this.setSize(player.getIntWidth(), player.getIntHeight());
+		this.inputController = new InputController(board, lightHouse, player, enemies);
 		add(board);
-
+		
 		setResizable(false);
 		setLocationRelativeTo(null);
 
-		addKeyListeners();
+		//addKeyListeners();
 		inputController.start();
+		getGCanvas().addKeyListener(inputController);
 	}
-
-	// if key pressed methods in initController move the ship
-	public void keyPressed(KeyEvent e) {
-		inputController.keyPressed.put(e.getKeyCode(), true);
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		inputController.keyPressed.put(e.getKeyCode(), false);
-		}
-	
 
 	@Override
 	public void run() {

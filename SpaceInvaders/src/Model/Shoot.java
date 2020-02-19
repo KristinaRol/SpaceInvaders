@@ -1,30 +1,27 @@
 package Model;
 
-import View.Board;
-import View.BoardFancy;
-
 public class Shoot {
 
-	private double x, y;
+	private int x, y;
 
-	public Shoot(double x, double y) {
+	public Shoot(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public double getX() {
+	public int getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public int getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -33,7 +30,7 @@ public class Shoot {
 	}
 
 	
-	public boolean hitsEnemy(Enemies enemies, Board board) {
+	public boolean hitsEnemy(Enemies enemies) {
 			for (Enemy enemy : enemies.getEnemmyList()) {
 				if (x == enemy.getX()) {
 					if (y == enemy.getY()) {
@@ -42,18 +39,6 @@ public class Shoot {
 					}
 				}
 			}
-		return false;
-	}
-	
-	public boolean hitsEnemy(Enemies enemies, BoardFancy board) {
-		for (Enemy enemy : enemies.getEnemmyList()) {
-			if (x > enemy.getX()*21 && x < enemy.getX()*21 + 30) {
-				if (y > enemy.getY()*21 && y < enemy.getY()*21 +30) {
-					enemy.remove();
-					return true;
-				}
-			}
-		}
 		return false;
 	}
 	

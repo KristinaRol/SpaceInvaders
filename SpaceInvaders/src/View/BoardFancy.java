@@ -10,39 +10,52 @@ import Model.Spaceship;
 import acm.graphics.GCompound;
 import acm.graphics.GImage;
 import acm.graphics.GOval;
-import acm.graphics.GPoint;
 import acm.graphics.GRect;
 
-public class BoardFancy extends GCompound {
+public class BoardFancy extends GCompound implements View {
 	
-	public final static int WIDTH =  616;
-	public final static int HEIGHT = 600;
-	public final static int ENEMY_SIZE = 30;
 	private GRect background;
+	Spaceship player;
+	Enemies enemies;
 	GImage img = new GImage("Spaceship.png");
 	GImage heart = new GImage("heart.png");
 	GImage alien = new GImage("alien.png");
 	
-	public int getIntWidth() {
-		return WIDTH;
+	
+	
+	public void newFrame(Spaceship player, Enemies enemies) {
+		this.player = player;
+		this.enemies = enemies;
+		
+		removeAll();
+		
+		drawBackground();
+		drawShip();
+		drawShoots(player);
+		drawEnemies();
+		drawLife();
 	}
-	public int getIntHeight() {
-		return HEIGHT;
-	}
-	public int getBaseWidth() {
-		return  WIDTH;
+	
+	
+	
+
+	private void drawBackground() {
+		background = new GRect(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
+		background.setFilled(true);
+		background.setColor(Color.BLACK);
+		add(background);
 	}
 	
 	//draws spaceship as a rectangle
-	public void drawShip(Spaceship ship) {
-		drawBackground();
+	public void drawShip() {
 		
-		img.setLocation(ship.getX() * 5.9,ship.getY() *5.9);
+		img.setLocation(player.getX() * Spaceship.MULTIPLIER, player.getY() * Spaceship.MULTIPLIER);
+		img.setSize(Spaceship.MULTIPLIER, Spaceship.MULTIPLIER);
 		img.setVisible(true);
 		add(img);
 	}
 	
-	public void drawEnemies(Enemies enemies) {
+	public void drawEnemies() {
 		ArrayList<Enemy> enemyList = enemies.getEnemmyList();
 		for(Enemy enemy :enemyList ) {
 			drawEnemy(enemy);
@@ -52,39 +65,27 @@ public class BoardFancy extends GCompound {
 	public void drawEnemy(Enemy enemy) {
 		
 		GImage alien = new GImage(this.alien.getImage());
-		alien.setLocation(enemy.getX()*21, enemy.getY()*21 );
+		alien.setLocation(enemy.getX() * Spaceship.MULTIPLIER, enemy.getY() * Spaceship.MULTIPLIER);
+		alien.setSize(Spaceship.MULTIPLIER, Spaceship.MULTIPLIER);
 		add(alien);
-	}
-	
-	private void drawBackground() {
-		background = new GRect(WIDTH,HEIGHT); 
-		background.setFilled(true);
-		background.setColor(Color.BLACK);
-		add(background);
 	}
 
 	public void drawShoots(Spaceship ship) {
 		for(Shoot shoot : ship.shoots) {
-			GOval oval = new GOval(shoot.getX() * 5.9 + 8,shoot.getY() * 5.9 ,10,10);
+			GOval oval = new GOval(shoot.getX() * Spaceship.MULTIPLIER + Spaceship.MULTIPLIER / 2, shoot.getY() * Spaceship.MULTIPLIER + Spaceship.MULTIPLIER / 2 ,10,10);
 			oval.setFilled(true);
 			oval.setColor(Color.WHITE);
 			add(oval);
 		}
 	}
 
-	public void drawLife(Spaceship ship) {
-		for(int i = 0; i<ship.getLife(); i++) {
+	public void drawLife() {
+		for(int i = 0; i < player.getLife(); i++) {
 		GImage heart = new GImage(this.heart.getImage());
-		heart.setLocation(500+i*25, 520);
+		heart.setLocation((player.getBaseWidth() - 4 + i) * Spaceship.MULTIPLIER, (player.getBaseHeight() - 1) * Spaceship.MULTIPLIER);
 		add(heart);
 		}
 		
-	}
-	public double getMaxXFromShip() {
-		return 97;
-	}
-	public double getVelocityMultiplier() {
-		return 2;
 	}
 }
 
