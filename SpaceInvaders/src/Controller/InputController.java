@@ -84,6 +84,7 @@ public class InputController extends Thread implements KeyListener {
 			spaceship.moveRight();
 		}
 		if (keyPressed.get(KeyEvent.VK_SPACE)) {
+			board.playingCurrently = true;
 			if (System.currentTimeMillis() - timeOfLastShoot > 750) {
 				spaceship.shoot();
 				timeOfLastShoot = System.currentTimeMillis();
