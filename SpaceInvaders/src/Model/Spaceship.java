@@ -11,15 +11,17 @@ public class Spaceship {
 	private int x;
 	private int y;
 	private int life;
+	private boolean epicWeapon = false;
 	
 	//-1 = lose, 0 = normal, 1 = win.
 	private int winLose = 0;
+	private boolean start = false;
 	
 	public ArrayList<Shoot> shoots = new ArrayList<>();
 	public ArrayList<Explosion> explosionList = new ArrayList<>();
 
-
 	
+	// Creates a new Spaceship.
 	public Spaceship() {
 		this.x = 13;
 		this.y = 12;
@@ -28,17 +30,23 @@ public class Spaceship {
 
 	
 	public void shoot() {
-		Shoot shoot = new Shoot(x, y);
+		Shoot shoot = new Shoot(x, y, Shoot.DIRECTION_UP);
 		shoots.add(shoot);
 	}
 
 	
+	/**
+	 * Moves the player left, if possible.
+	 */
 	public void moveLeft() {
 		if (x > 0) {
 			setX(x - 1);			
 		}
 	}
 	
+	/**
+	 * Moves the player right, if possible.
+	 */
 	public void moveRight() {
 		if (x < getMaxXFromShip()) {
 			setX(x + 1);
@@ -46,22 +54,49 @@ public class Spaceship {
 	}
 	
 	
-	
+	/**
+	 * Checks if a shoot hits an enemy. Also moves the shoots up.
+	 */
 	public void shootEnemy(Enemies enemies) {
-		for (Shoot shoot : shoots) {
-			shoot.setY(shoot.getY() - 1);
+		// For each shot
+		@SuppressWarnings("unchecked")
+		ArrayList<Shoot> shootCheckList = (ArrayList<Shoot>) shoots.clone();
+		for (Shoot shoot : shootCheckList) {
+			// Moves the shoot.
+			if (shoot.getDirection() == Shoot.DIRECTION_UP) {
+				shoot.setY(shoot.getY() - 1);				
+			}
+			if (shoot.getDirection() == Shoot.DIRECTION_LEFT) {
+				shoot.setX(shoot.getX() - 1);				
+			}
+			if (shoot.getDirection() == Shoot.DIRECTION_RIGHT) {
+				shoot.setX(shoot.getX() + 1);				
+			}
+			
+			// Places the shoot at a position where it will be removed, if the shoot hits an enemy
 			if (shoot.hitsEnemy(enemies)) {
-				
+				// Also creates an explosion if the shoot hits.
 				Explosion explosion = new Explosion(shoot.getX(), shoot.getY());
 				explosionList.add(explosion);
 				
+				if (shoot.getDirection() == Shoot.DIRECTION_UP && epicWeapon) {
+					Shoot newShoot1 = new Shoot(shoot.getX(), shoot.getY(), Shoot.DIRECTION_LEFT);
+					Shoot newShoot2 = new Shoot(shoot.getX(), shoot.getY(), Shoot.DIRECTION_RIGHT);
+					
+					shoots.add(newShoot1);
+					shoots.add(newShoot2);					
+				}
+				
+				// Position where the shoot is invisible.
 				shoot.setY(-5);
 			}
 		}
 	}
 	
 	
-	
+	/**
+	 * Checks if the player already lost or won.
+	*/
 	public void checkGameState(Enemies enemies) {
 		
 		if (enemies.areAllDead()) {
@@ -82,17 +117,33 @@ public class Spaceship {
 	}
 	
 	
+	public boolean getStart() {
+		return start;
+	}
 	
+	public void setStart() {
+		start = true;
+	}
+	
+	
+	
+	/**
+	 * Changes the state of every explosion. e.g. from yellow to orange.
+	 */
 	public void nextStateExplosion() {
 		for(Explosion explosion : explosionList) {
 			explosion.nextState();
 		}
 	}
 
+	/**
+	 * Removes explosions that are already shown long enough.
+	 */
 	public void removeExplosions() {
 		@SuppressWarnings("unchecked")
 		ArrayList<Explosion> explosionCheckList = (ArrayList<Explosion>) explosionList.clone();
 		for(Explosion explosion : explosionCheckList) {
+			// Removes explosions with a state greater that 3.
 			if (explosion.getState() > 3) {
 				explosionList.remove(explosion);
 			} 
@@ -100,7 +151,23 @@ public class Spaceship {
 	}
 	
 	
+	/**
+	 * Removes shoots that aren't shown.
+	 */
+	public void removeShoots() {
+		@SuppressWarnings("unchecked")
+		ArrayList<Shoot> shootsCheckList = (ArrayList<Shoot>) shoots.clone();
+		for(Shoot shoot : shootsCheckList) {
+			if (!shoot.isVisible()) {
+				shoots.remove(shoot);
+			} 
+		}
+	}
 	
+	
+	
+	//Getters and Setters.
+	///////////////////////////////////////////////////////////////////////
 	public int getX() {
 		return x;
 	}
@@ -121,6 +188,12 @@ public class Spaceship {
 	}
 	public ArrayList<Explosion> getExplosions() {
 		return explosionList;
+	}
+	public boolean getEpicWeapon() {
+		return epicWeapon;
+	}
+	public void setEpicWeapon(boolean epicWeapon) {
+		this.epicWeapon = epicWeapon;
 	}
 
 	public double getVelocityMultiplier() {
@@ -143,6 +216,4 @@ public class Spaceship {
 	}
 
 
-
-	
 }

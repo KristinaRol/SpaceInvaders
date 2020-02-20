@@ -9,8 +9,10 @@ public class Enemies {
 	private boolean direction = true;
 	
 
+	/**
+	 * Creates the enemies.
+	 */
 	public Enemies(int rows, int columns) {
-
 		int r = 2;
 
 		for (int row = 0; row < rows; row++) {
@@ -30,6 +32,7 @@ public class Enemies {
 		@SuppressWarnings("unchecked")
 		ArrayList<Enemy> enemmyCheckList = (ArrayList<Enemy>) enemyList.clone();
 		for (Enemy enemy : enemmyCheckList) {
+			// Remove the enemy from the list if it was hit by a shot.
 			if (enemy.getHitpoints() == 0) {
 				enemyList.remove(enemy);
 			}
@@ -40,6 +43,11 @@ public class Enemies {
 		return enemyList.size() == 0;
 	}
 
+	/**
+	 * Updates the positions of the enemies.
+	 * 
+	 * @param row The row that is moved.
+	 */
 	public void move(int row) {
 		checkDirection();
 
@@ -54,6 +62,9 @@ public class Enemies {
 		}
 	}
 
+	/**
+	 * Checks in which direction the enemies should be moving.
+	 */
 	private void checkDirection() {
 		for (Enemy enemy : enemyList) {
 			if (enemy.getRow() == 2) {
@@ -73,13 +84,18 @@ public class Enemies {
 		}
 	}
 	
-	
+	/**
+	 * If the enemies are touching a wall, they move down by one.
+	 */
 	private void lowerByOne() {
 		for (Enemy enemy : enemyList) {
 			enemy.setY(enemy.getY() + 1);
 		}
 	}
 	
+	/**
+	 * If a enemy is touching the player.
+	 */
 	public boolean killPlayer(Spaceship player) {
 		
 		for (Enemy enemy : enemyList) {
@@ -110,12 +126,25 @@ public class Enemies {
 		}
 	}
 
+	/**
+	 * Checks if a bomb hits the player or if an enemy is touching the player.
+	 */
 	public void hitsPlayer(Spaceship player) {
+		
+		// Checks if an enemy touches the player. Kills player.
 		if (killPlayer(player)) {
 			player.setLife(0);
 			return;
 		}
 		
+		for (Enemy enemy : enemyList) {
+			if (enemy.getY() > 13) {
+				player.setLife(0);
+				return;
+			}
+		}
+		
+		// Checks if a bomb touches the player. Removes one life.
 		for(Bomb bomb : bombList) {
 			if (bomb.getX() == player.getX() && bomb.getY() == player.getY()) {
 				player.setLife(player.getLife() - 1);
@@ -123,10 +152,12 @@ public class Enemies {
 		}
 	}
 
+	// Randomly generates bombs.
 	public void createBomb() {
 		int rand = (int) (Math.random() * 12);
 		
 		if (rand == 0) {
+			// Decides where the bomb should spawn.
 			rand = (int) (Math.random() * enemyList.size());
 			if (enemyList.size() > 0) {
 				Bomb bomb = new Bomb(enemyList.get(rand).getX() , enemyList.get(rand).getY());

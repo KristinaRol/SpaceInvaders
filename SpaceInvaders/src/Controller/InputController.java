@@ -22,12 +22,17 @@ public class InputController extends Thread implements KeyListener {
 	private LHView lightHouse;
 	private int counter = 0;
 	private double timeOfLastShoot = System.currentTimeMillis();
+	
+	// Hash Map of the pressed buttons.
 	private HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
 
 	public InputController(BoardFancy board, LHView lightHouse, Spaceship player, Enemies enemies) {
 		
+		// The two model classes.
 		this.spaceship = player;
 		this.enemies = enemies;
+		
+		// The light house view.
 		this.lightHouse = lightHouse;
 		
 		this.board = board;
@@ -41,31 +46,37 @@ public class InputController extends Thread implements KeyListener {
 	public void run() {
 
 		while (true) {
-			counter = counter % 18;
-			// updated the spaceship the whole time
-			enemies.removeDestroiedEnemies();
-			enemies.removeInvisbleBombs();
-			enemies.moveBombs();
-			enemies.createBomb();
-			spaceship.shootEnemy(enemies);
-			move();
-			enemies.hitsPlayer(spaceship);
-			spaceship.checkGameState(enemies);
-			spaceship.removeExplosions();
-			if (counter % 3 == 0) {
-				spaceship.nextStateExplosion();				
-			}
-			
-			if (counter < 9) {
+			if (spaceship.getStart()) {
+				// Counter for some stuff that should only be done once in a while.
+				counter = counter % 18;
+				// Updating the models.
+				enemies.removeDestroiedEnemies();
+				enemies.removeInvisbleBombs();
+				enemies.moveBombs();
+				enemies.createBomb();
+				spaceship.shootEnemy(enemies);
+				move();
+				enemies.hitsPlayer(spaceship);
+				spaceship.checkGameState(enemies);
+				spaceship.removeExplosions();
+				spaceship.removeShoots();
 				if (counter % 3 == 0) {
-					enemies.move(counter / 3);	
+					spaceship.nextStateExplosion();				
 				}
+				
+				if (counter < 9) {
+					if (counter % 3 == 0) {
+						enemies.move(counter / 3);	
+					}
+				}
+				
+				// Updates the views.
+				board.newFrame(spaceship, enemies);
+				lightHouse.newFrame(spaceship, enemies);
+				counter++;
 			}
 			
-			board.newFrame(spaceship, enemies);
-			//lightHouse.newFrame(spaceship, enemies);
-			counter++;
-			
+			// Stop for a certain amount before the next frame.
 			try {
 				sleep(100);
 			} catch (InterruptedException e) {
@@ -75,7 +86,7 @@ public class InputController extends Thread implements KeyListener {
 	}
 
 
-
+	// Calles methods according to the buttons that are pressed.
 	public void move() {
 		if (keyPressed.get(KeyEvent.VK_LEFT)) {
 			spaceship.moveLeft();
@@ -84,24 +95,27 @@ public class InputController extends Thread implements KeyListener {
 			spaceship.moveRight();
 		}
 		if (keyPressed.get(KeyEvent.VK_SPACE)) {
+			
+			// Makes sure that the player can only shoot once every 750ms.
 			if (System.currentTimeMillis() - timeOfLastShoot > 750) {
 				spaceship.shoot();
 				timeOfLastShoot = System.currentTimeMillis();
 			}
 		}
-
-		// i don't know what happens here, but the shoots which aren't visible anymore are filtered out
-		spaceship.shoots = (ArrayList<Shoot>) spaceship.shoots.stream().filter(shoot -> shoot.isAlive())
-				.collect(Collectors.toList());
-
 	}
 
+	// Key inputs. Changes the boolean of the hash map.
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		keyPressed.put(e.getKeyCode(), true);
+		if (spaceship.getStart()) {
+			keyPressed.put(e.getKeyCode(), true);
+		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			spaceship.setStart();
+		}
 	}
 
 	@Override

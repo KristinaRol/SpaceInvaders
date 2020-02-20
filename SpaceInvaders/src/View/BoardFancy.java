@@ -23,7 +23,9 @@ public class BoardFancy extends GCompound implements View {
 	private GImage alien = new GImage("alien.png");
 	
 	
-	
+	/**
+	 * Updates the view.
+	 */
 	public void newFrame(Spaceship player, Enemies enemies) {
 		this.player = player;
 		this.enemies = enemies;
@@ -51,7 +53,7 @@ public class BoardFancy extends GCompound implements View {
 		add(background);
 	}
 	
-	//draws spaceship as a rectangle
+	
 	public void drawShip() {
 		
 		img.setLocation(player.getX() * Spaceship.MULTIPLIER, player.getY() * Spaceship.MULTIPLIER);
@@ -71,7 +73,7 @@ public class BoardFancy extends GCompound implements View {
 		
 		GImage alien = new GImage(this.alien.getImage());
 		alien.setLocation(enemy.getX() * Spaceship.MULTIPLIER, enemy.getY() * Spaceship.MULTIPLIER);
-		alien.setSize(Spaceship.MULTIPLIER, Spaceship.MULTIPLIER);
+		alien.setSize(Spaceship.MULTIPLIER, Spaceship.MULTIPLIER - 10);
 		add(alien);
 	}
 

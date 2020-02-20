@@ -9,12 +9,18 @@ public class Bomb {
 		this.y = y;
 	}
 
+	/**
+	 * Moves the bomb down by one.
+	 */
 	public void move() {
 		if (isVisible()) {
 			y++;
 		}
 	}
 	
+	/**
+	 * Checks if the bomb is shown on the screen.
+	 */
 	public boolean isVisible() {
 		if (y <= Spaceship.BASE_HEIGHT) {
 			return true;

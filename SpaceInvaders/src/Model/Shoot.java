@@ -2,11 +2,17 @@ package Model;
 
 public class Shoot {
 
+	public static final int DIRECTION_UP = 0;
+	public static final int DIRECTION_LEFT = 1;
+	public static final int DIRECTION_RIGHT = 2;
 	private int x, y;
+	private int direction;
+	
 
-	public Shoot(int x, int y) {
+	public Shoot(int x, int y, int direction) {
 		this.x = x;
 		this.y = y;
+		this.direction = direction;
 	}
 
 	public int getX() {
@@ -24,12 +30,14 @@ public class Shoot {
 	public void setY(int y) {
 		this.y = y;
 	}
-
-	public boolean isAlive() {
-		return y > -2;
+	
+	public int getDirection() {
+		return direction;
 	}
 
-	
+	/**
+	 * If the shoot is on the same position as an enemy, the enemy is removed from the list and true is returned.
+	 */
 	public boolean hitsEnemy(Enemies enemies) {
 			for (Enemy enemy : enemies.getEnemmyList()) {
 				if (x == enemy.getX()) {
@@ -40,6 +48,14 @@ public class Shoot {
 				}
 			}
 		return false;
+	}
+	
+	public boolean  isVisible() {
+		if (x < 0 || x > Spaceship.BASE_WIDTH || y < -1) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 }

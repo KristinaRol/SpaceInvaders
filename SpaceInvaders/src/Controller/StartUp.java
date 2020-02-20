@@ -1,5 +1,8 @@
 package Controller;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import Model.Enemies;
 import Model.Spaceship;
 import View.Board;
@@ -24,12 +27,12 @@ public class StartUp extends GraphicsProgram {
         
         //this.setSize(getSize().width, Board.BASE_HEIGHT * Board.MULTIPLIER + delta);
 		
-		// create and add the game board
+		// Creates and adds the game board.
 		//Board board = new Board();
 		BoardFancy board = new BoardFancy();
 		LHView lightHouse = new LHView();
 		
-		//lightHouse.initDisplay();
+		lightHouse.initDisplay();
 		
 		Spaceship player = new Spaceship();
 		Enemies enemies = new Enemies(3, 13);
@@ -40,9 +43,24 @@ public class StartUp extends GraphicsProgram {
 		setResizable(false);
 		setLocationRelativeTo(null);
 
-		//addKeyListeners();
 		inputController.start();
+		
+		// Sets the Key Listener.
 		getGCanvas().addKeyListener(inputController);
+		
+		
+		
+		addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("Closed");
+                lightHouse.close();
+                e.getWindow().dispose();
+            }
+        });
+		
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import Model.Explosion;
 import Model.Shoot;
 import Model.Spaceship;
 import acm.graphics.GCompound;
-import acm.graphics.GImage;
 import acm.graphics.GRect;
 
 public class Board extends GCompound implements View {
@@ -19,16 +18,21 @@ public class Board extends GCompound implements View {
 	private Spaceship player;
 	private Enemies enemies;
 
+	/**
+	 * Updates the view.
+	 */
 	public void newFrame(Spaceship player, Enemies enemies) {
 		this.player = player;
 		this.enemies = enemies;
 
+		// Clears the screen.
 		removeAll();
 
+		// Draws the different stuff.
 		drawBackground();
 		drawExplosions();
 		drawShip();
-		drawShoots(player);
+		drawShoots();
 		drawBombs();
 		drawEnemies();
 		drawLife();
@@ -51,6 +55,7 @@ public class Board extends GCompound implements View {
 		}
 	}
 	
+	// Dosn't look good yet.
 	private void drawExplosion(int x, int y, int state) {
 		GRect rect1 = new GRect(0,0);
 		GRect rect2 = new GRect(0,0);
@@ -108,8 +113,8 @@ public class Board extends GCompound implements View {
 		add(rect);
 	}
 
-	public void drawShoots(Spaceship ship) {
-		for (Shoot shoot : ship.shoots) {
+	public void drawShoots() {
+		for (Shoot shoot : player.shoots) {
 			GRect oval = new GRect(shoot.getX() * Spaceship.MULTIPLIER, shoot.getY() * Spaceship.MULTIPLIER,
 					Spaceship.MULTIPLIER, Spaceship.MULTIPLIER);
 			oval.setFilled(true);
