@@ -28,14 +28,11 @@ public class BoardFancy extends GCompound implements View {
 	private GImage bullet = new GImage("bullet.png");
 	private GImage bullet2 = new GImage("bullet2.png");
 	private GImage bullet3 = new GImage("bullet3.png");
-	public boolean playingCurrently = false;
 	private int changeImage = 0;
 
 	public void newFrame(Spaceship player, Enemies enemies) {
 
-		if (!playingCurrently) {
-			startScreen();
-		} else {
+	
 
 			this.player = player;
 			this.enemies = enemies;
@@ -51,7 +48,7 @@ public class BoardFancy extends GCompound implements View {
 
 			losingScreen();
 			winningScreen();
-		}
+		
 	}
 
 	private void drawBackground() {
@@ -128,7 +125,7 @@ public class BoardFancy extends GCompound implements View {
 		}
 	}
 
-	private void startScreen() {
+	public void startScreen() {
 		GImage sky = new GImage(this.sky.getImage());
 		sky.setSize(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
 		add(sky);
