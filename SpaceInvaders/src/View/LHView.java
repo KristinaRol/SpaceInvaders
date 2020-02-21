@@ -45,6 +45,7 @@ public class LHView implements View {
 		drawLife();
 		drawExplosions();
 
+		player.winLose=-1;
 		looseScreen();
 
 		sendToDisplay();
@@ -96,8 +97,8 @@ public class LHView implements View {
 					color = new Color(GImage.getRed(pixel[row][col]), GImage.getGreen(pixel[row][col]),
 							GImage.getBlue(pixel[row][col]));
 					if (color.getAlpha() > 50) {
-						insertColorInData(col + (moveImage % 28), row, color);
-						insertColorInData(col - (moveImage % 28), row + 7, color);
+						insertColorInData((col + moveImage) % 28, row, color);
+						insertColorInData(((col - moveImage -28) % 28)+28, row + 7, color);
 					}
 				}
 			}
