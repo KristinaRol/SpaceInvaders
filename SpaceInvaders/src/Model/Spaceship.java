@@ -107,11 +107,11 @@ public class Spaceship {
 			winLose = -1;
 		}
 		
+		//doesn't work, don't know why
+		epicWeapon = true;
 		for (Enemy enemy : enemies.getEnemmyList()) {
 			if(enemy.getRow()==2) {
 				epicWeapon = false;
-			} else {
-				epicWeapon = true;
 			}
 		}
 	}
