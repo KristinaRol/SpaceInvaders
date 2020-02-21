@@ -29,7 +29,7 @@ public class StartUp extends GraphicsProgram {
 		BoardFancy board = new BoardFancy();
 		LHView lightHouse = new LHView();
 		
-		lightHouse.initDisplay();
+		//lightHouse.initDisplay();
 		
 		Spaceship player = new Spaceship();
 		Enemies enemies = new Enemies(3, 13);

@@ -23,7 +23,7 @@ public class BoardFancy extends GCompound implements View {
 	private GImage img = new GImage("Spaceship.png");
 	private GImage heart = new GImage("heart.png");
 	private GImage alien = new GImage("alien.png");
-	private GImage sky = new GImage("sky.png");
+	private GImage sky = new GImage("spaceWithLetter.png");
 	private GImage bomb = new GImage("bomb.png");
 	private GImage bullet = new GImage("bullet.png");
 	private GImage bullet2 = new GImage("bullet2.png");
@@ -32,23 +32,21 @@ public class BoardFancy extends GCompound implements View {
 
 	public void newFrame(Spaceship player, Enemies enemies) {
 
-	
+		this.player = player;
+		this.enemies = enemies;
 
-			this.player = player;
-			this.enemies = enemies;
+		removeAll();
 
-			removeAll();
+		drawBackground();
+		drawShip();
+		drawShoots(player);
+		drawBombs();
+		drawEnemies();
+		drawLife();
 
-			drawBackground();
-			drawShip();
-			drawShoots(player);
-			drawBombs();
-			drawEnemies();
-			drawLife();
+		losingScreen();
+		winningScreen();
 
-			losingScreen();
-			winningScreen();
-		
 	}
 
 	private void drawBackground() {
@@ -59,7 +57,6 @@ public class BoardFancy extends GCompound implements View {
 		add(background);
 	}
 
-	// draws spaceship as a rectangle
 	public void drawShip() {
 
 		img.setLocation(player.getX() * Spaceship.MULTIPLIER, player.getY() * Spaceship.MULTIPLIER);
@@ -86,22 +83,22 @@ public class BoardFancy extends GCompound implements View {
 
 		for (Shoot shoot : ship.shoots) {
 			GImage bullet;
-			
-			if(changeImage%3==0) {
-			bullet = new GImage(this.bullet2.getImage());
-			changeImage++;
-			} else if (changeImage %2==0) {
-			bullet = new GImage(this.bullet3.getImage());
-			changeImage++;
+
+			if (changeImage % 3 == 0) {
+				bullet = new GImage(this.bullet2.getImage());
+				changeImage++;
+			} else if (changeImage % 2 == 0) {
+				bullet = new GImage(this.bullet3.getImage());
+				changeImage++;
 			} else {
 				bullet = new GImage(this.bullet.getImage());
 				changeImage++;
 			}
-			
-			bullet.setLocation(shoot.getX() * Spaceship.MULTIPLIER + 16, shoot.getY() * Spaceship.MULTIPLIER +16);
+
+			bullet.setLocation(shoot.getX() * Spaceship.MULTIPLIER + 16, shoot.getY() * Spaceship.MULTIPLIER + 16);
 			bullet.setSize(25, 25);
 			add(bullet);
-		
+
 		}
 
 	}
@@ -127,13 +124,11 @@ public class BoardFancy extends GCompound implements View {
 
 	public void startScreen() {
 		GImage sky = new GImage(this.sky.getImage());
-		sky.setSize(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
 		add(sky);
 		GLabel start = new GLabel("Press SCPACE to start", Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER / 2 - 180,
 				Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER / 2);
 		start.setFont("arial-36");
 		start.setColor(Color.WHITE);
-		add(start);
 	}
 
 	private void winningScreen() {
