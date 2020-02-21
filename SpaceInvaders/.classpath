@@ -7,13 +7,13 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/kristina programmiert/acm/acm-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kristina R/Desktop/lighthouse/lighthouse/jetty-client-9.4.8.v20171121.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kristina R/Desktop/lighthouse/lighthouse/jetty-http-9.4.8.v20171121.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kristina R/Desktop/lighthouse/lighthouse/jetty-io-9.4.8.v20171121.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kristina R/Desktop/lighthouse/lighthouse/jetty-util-9.4.8.v20171121.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kristina R/Desktop/lighthouse/lighthouse/msgpack-core-0.8.14.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kristina R/Desktop/lighthouse/lighthouse/websocket-api-9.4.8.v20171121.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kristina R/Desktop/lighthouse/lighthouse/websocket-client-9.4.8.v20171121.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kristina R/Desktop/lighthouse/lighthouse/websocket-common-9.4.8.v20171121.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kristina R/Documents/lighthouse/lighthouse/jetty-client-9.4.8.v20171121.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kristina R/Documents/lighthouse/lighthouse/jetty-http-9.4.8.v20171121.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kristina R/Documents/lighthouse/lighthouse/jetty-io-9.4.8.v20171121.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kristina R/Documents/lighthouse/lighthouse/jetty-util-9.4.8.v20171121.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kristina R/Documents/lighthouse/lighthouse/msgpack-core-0.8.14.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kristina R/Documents/lighthouse/lighthouse/websocket-api-9.4.8.v20171121.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kristina R/Documents/lighthouse/lighthouse/websocket-client-9.4.8.v20171121.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kristina R/Documents/lighthouse/lighthouse/websocket-common-9.4.8.v20171121.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
