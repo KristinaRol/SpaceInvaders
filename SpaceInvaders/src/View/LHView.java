@@ -10,12 +10,15 @@ import Model.Enemy;
 import Model.Explosion;
 import Model.Shoot;
 import Model.Spaceship;
+import acm.graphics.GImage;
 import de.cau.infprogoo.lighthouse.LighthouseDisplay;
 
 public class LHView implements View {
 
 	private Spaceship player;
 	private Enemies enemies;
+	private GImage loose = new GImage("loose.png");
+	private int moveImage = 0;
 
 	// Array of the pixels that are shown on the light house.
 	// One pixel consists of an red, green and blue value.
@@ -34,13 +37,15 @@ public class LHView implements View {
 
 		// Draws the player.
 		insertColorInData(player.getX(), player.getY(), Color.GREEN);
-		
+
 		// Draws the other stuff.
 		drawEnemies();
 		drawShoot();
 		drawBombs();
 		drawLife();
 		drawExplosions();
+
+		looseScreen();
 
 		sendToDisplay();
 	}
@@ -69,20 +74,41 @@ public class LHView implements View {
 			insertColorInData(bomb.getX(), bomb.getY(), Color.MAGENTA);
 		}
 	}
-	
+
 	public void drawLife() {
 		for (int i = 0; i < player.getLife(); i++) {
 			insertColorInData(player.getBaseWidth() - 4 + i, player.getBaseHeight() - 1, Color.RED);
 		}
 	}
 
-
 	private void drawExplosions() {
 		for (Explosion explosion : player.explosionList) {
 			drawExplosion(explosion);
 		}
 	}
-	
+
+	private void looseScreen() {
+		if (player.lost()) {
+			int[][] pixel = loose.getPixelArray();
+			Color color;
+			for (int row = 0; row < pixel.length; row++) {
+				for (int col = 0; col < pixel[0].length; col++) {
+					color = new Color(GImage.getRed(pixel[row][col]), GImage.getGreen(pixel[row][col]),
+							GImage.getBlue(pixel[row][col]));
+					if (color.getAlpha() > 50) {
+						insertColorInData(col + (moveImage % 28), row, color);
+						insertColorInData(col - (moveImage % 28), row + 7, color);
+					}
+				}
+			}
+			if (moveImage == 28 * 28 * 28) {
+				moveImage = 0;
+			} else {
+				moveImage++;
+			}
+		}
+	}
+
 	private void drawExplosion(Explosion explosion) {
 
 		insertColorInData(explosion.getX(), explosion.getY(), Color.YELLOW);
@@ -97,7 +123,6 @@ public class LHView implements View {
 			insertColorInData(explosion.getX() + 1, explosion.getY(), Color.ORANGE);
 			insertColorInData(explosion.getX() + 1, explosion.getY() + 1, Color.ORANGE);
 		}
-
 
 		if (explosion.getState() > 1) {
 			insertColorInData(explosion.getX() - 1, explosion.getY() - 1, Color.RED);
@@ -131,7 +156,8 @@ public class LHView implements View {
 	}
 
 	/**
-	 * Important method that works like an adapter to easily add pixels to the data array.
+	 * Important method that works like an adapter to easily add pixels to the data
+	 * array.
 	 */
 	private void insertColorInData(int x, int y, Color color) {
 		if (x >= 0 && x <= 27 && y >= 0 && y <= 13) {
@@ -140,13 +166,13 @@ public class LHView implements View {
 			// ... the green.
 			data[1 + (x * 3) + (y * 28 * 3)] = (byte) color.getGreen();
 			// ... the blue.
-			data[2 + (x * 3) + (y * 28 * 3)] = (byte) color.getBlue();			
+			data[2 + (x * 3) + (y * 28 * 3)] = (byte) color.getBlue();
 		}
 	}
 
-	
 	/**
-	 * Have to be called once in the startUp class to initialize the light house display.
+	 * Have to be called once in the startUp class to initialize the light house
+	 * display.
 	 */
 	public void initDisplay() {
 		// Try connecting to the display
@@ -159,7 +185,7 @@ public class LHView implements View {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void close() {
 		display.close();
 	}

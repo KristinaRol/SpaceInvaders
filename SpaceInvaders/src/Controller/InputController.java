@@ -69,7 +69,7 @@ public class InputController extends Thread implements KeyListener {
 
 				// Updates the views.
 				board.newFrame(spaceship, enemies);
-				//lightHouse.newFrame(spaceship, enemies);
+				lightHouse.newFrame(spaceship, enemies);
 				counter++;
 			} else {
 				board.startScreen();
