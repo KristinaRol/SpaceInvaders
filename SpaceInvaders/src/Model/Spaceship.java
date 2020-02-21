@@ -14,7 +14,7 @@ public class Spaceship {
 	private boolean epicWeapon = false;
 	
 	//-1 = lose, 0 = normal, 1 = win.
-	private int winLose = 0;
+	public int winLose = 0;
 	private boolean start = false;
 	
 	public ArrayList<Shoot> shoots = new ArrayList<>();

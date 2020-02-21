@@ -48,8 +48,9 @@ public class LHView implements View {
 		drawLife();
 		drawExplosions();
 
-		// player.winLose=-1; //test
 		looseScreen();
+		//player.winLose = 1;
+		winningScreen();
 
 		sendToDisplay();
 	}
@@ -106,12 +107,13 @@ public class LHView implements View {
 				color2 = new Color(GImage.getRed(alien2[row][col]), GImage.getGreen(alien2[row][col]),
 						GImage.getBlue(alien2[row][col]));
 
-				if (moveImage % 8 == 0 || (moveImage+1) % 8 == 0 || (moveImage+2) % 8 == 0 || (moveImage+3) % 8 == 0) {
+				if (moveImage % 8 == 0 || (moveImage + 1) % 8 == 0 || (moveImage + 2) % 8 == 0
+						|| (moveImage + 3) % 8 == 0) {
 					// alien1
 					insertColorInData(col, row, color1);
 				} else {
 					// alien2
-					insertColorInData(col, row , color2);
+					insertColorInData(col, row, color2);
 				}
 			}
 		}
@@ -119,26 +121,42 @@ public class LHView implements View {
 		moveImage++;
 		sendToDisplay();
 	}
-	
+
 	private void outerBorder() {
-		//links
-		insertColorInData(0, 13 - border , Color.RED);
-		insertColorInData(0, 13 - ((border+7)%13) , Color.YELLOW);
-		//rechts
-		insertColorInData(27, border , Color.RED);
-		insertColorInData(27, (border+7)%13 , Color.YELLOW);
-		//oben
-		insertColorInData(border*2, 0 , Color.RED);
-		insertColorInData(((border+7)%13)*2, 0 , Color.YELLOW);
-		//unten
-		insertColorInData(27 - border*2, 13 , Color.RED);
-		insertColorInData(27 - ((border+7)%13)*2, 13 , Color.YELLOW);
+		// links
+		insertColorInData(0, 13 - border, Color.WHITE);
+		insertColorInData(0, 13 - ((border + 7) % 13), Color.YELLOW);
+		// rechts
+		insertColorInData(27, border, Color.WHITE);
+		insertColorInData(27, (border + 7) % 13, Color.YELLOW);
+		// oben
+		insertColorInData(border * 2, 0, Color.WHITE);
+		insertColorInData(((border + 7) % 13) * 2, 0, Color.YELLOW);
+		// unten
+		insertColorInData(27 - border * 2, 13, Color.WHITE);
+		insertColorInData(27 - ((border + 7) % 13) * 2, 13, Color.YELLOW);
 		border++;
 		border %= 13;
 	}
 
+	private void winningScreen() {
+		if (player.won()) {
+			blinkingBorder();
+		}
+	}
+
+	private void blinkingBorder() {
+		border &= 2;
+		for (int i = border; i < 14; i+=2) {
+			insertColorInData(0, i, Color.WHITE);
+			insertColorInData(27, i, Color.WHITE);
+		}
+		border++;
+		border%=2;
+	}
+
 	private void looseScreen() {
-		
+
 		if (player.lost()) {
 			int[][] pixel = loose.getPixelArray();
 			Color color;
