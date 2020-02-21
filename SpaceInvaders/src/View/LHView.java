@@ -45,7 +45,7 @@ public class LHView implements View {
 		drawLife();
 		drawExplosions();
 
-		player.winLose=-1;
+		//player.winLose=-1;
 		looseScreen();
 
 		sendToDisplay();
@@ -92,12 +92,16 @@ public class LHView implements View {
 		if (player.lost()) {
 			int[][] pixel = loose.getPixelArray();
 			Color color;
+			
 			for (int row = 0; row < pixel.length; row++) {
 				for (int col = 0; col < pixel[0].length; col++) {
+					//takes the color of the pixel
 					color = new Color(GImage.getRed(pixel[row][col]), GImage.getGreen(pixel[row][col]),
 							GImage.getBlue(pixel[row][col]));
 					if (color.getAlpha() > 50) {
+						//upper image which rotates right
 						insertColorInData((col + moveImage) % 28, row, color);
+						//lower image which rotates left
 						insertColorInData(((col - moveImage -28) % 28)+28, row + 7, color);
 					}
 				}
