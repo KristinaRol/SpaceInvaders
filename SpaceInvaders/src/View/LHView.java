@@ -21,6 +21,7 @@ public class LHView implements View {
 	private GImage start1 = new GImage("start1.png");
 	private GImage start2 = new GImage("start2.png");
 	private int moveImage = 0;
+	private int border = 0;
 
 	// Array of the pixels that are shown on the light house.
 	// One pixel consists of an red, green and blue value.
@@ -114,8 +115,20 @@ public class LHView implements View {
 				}
 			}
 		}
+		outerBorder();
 		moveImage++;
 		sendToDisplay();
+	}
+	
+	private void outerBorder() {
+		insertColorInData(0, 13 - border , Color.WHITE);
+		insertColorInData(27, border , Color.WHITE);
+		insertColorInData(border*2, 0 , Color.WHITE);
+		insertColorInData(27 - border*2, 13 , Color.WHITE);
+		border++;
+		if(border==14) {
+			border=0;
+		}
 	}
 
 	private void looseScreen() {
