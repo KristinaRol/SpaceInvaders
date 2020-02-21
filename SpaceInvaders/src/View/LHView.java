@@ -18,6 +18,8 @@ public class LHView implements View {
 	private Spaceship player;
 	private Enemies enemies;
 	private GImage loose = new GImage("loose.png");
+	private GImage start1 = new GImage("start1.png");
+	private GImage start2 = new GImage("start2.png");
 	private int moveImage = 0;
 
 	// Array of the pixels that are shown on the light house.
@@ -45,7 +47,7 @@ public class LHView implements View {
 		drawLife();
 		drawExplosions();
 
-		//player.winLose=-1;
+		// player.winLose=-1; //test
 		looseScreen();
 
 		sendToDisplay();
@@ -88,21 +90,50 @@ public class LHView implements View {
 		}
 	}
 
+	public void startScreen() {
+		int[][] alien1 = start1.getPixelArray();
+		int[][] alien2 = start2.getPixelArray();
+		Color color1;
+		Color color2;
+		data = new byte[28 * 14 * 3];
+
+		for (int row = 0; row < alien1.length; row++) {
+			for (int col = 0; col < alien1[0].length; col++) {
+				// takes the color of the pixel
+				color1 = new Color(GImage.getRed(alien1[row][col]), GImage.getGreen(alien1[row][col]),
+						GImage.getBlue(alien1[row][col]));
+				color2 = new Color(GImage.getRed(alien2[row][col]), GImage.getGreen(alien2[row][col]),
+						GImage.getBlue(alien2[row][col]));
+
+				if (moveImage % 8 == 0 || (moveImage+1) % 8 == 0 || (moveImage+2) % 8 == 0 || (moveImage+3) % 8 == 0) {
+					// alien1
+					insertColorInData(col, row, color1);
+				} else {
+					// alien2
+					insertColorInData(col, row , color2);
+				}
+			}
+		}
+		moveImage++;
+		sendToDisplay();
+	}
+
 	private void looseScreen() {
+		
 		if (player.lost()) {
 			int[][] pixel = loose.getPixelArray();
 			Color color;
-			
+
 			for (int row = 0; row < pixel.length; row++) {
 				for (int col = 0; col < pixel[0].length; col++) {
-					//takes the color of the pixel
+					// takes the color of the pixel
 					color = new Color(GImage.getRed(pixel[row][col]), GImage.getGreen(pixel[row][col]),
 							GImage.getBlue(pixel[row][col]));
 					if (color.getAlpha() > 50) {
-						//upper image which rotates right
+						// upper image which rotates right
 						insertColorInData((col + moveImage) % 28, row, color);
-						//lower image which rotates left
-						insertColorInData(((col - moveImage -28) % 28)+28, row + 7, color);
+						// lower image which rotates left
+						insertColorInData(((col - moveImage - 28) % 28) + 28, row + 7, color);
 					}
 				}
 			}

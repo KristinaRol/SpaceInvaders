@@ -73,6 +73,7 @@ public class InputController extends Thread implements KeyListener {
 				counter++;
 			} else {
 				board.startScreen();
+				lightHouse.startScreen();
 			}
 
 
