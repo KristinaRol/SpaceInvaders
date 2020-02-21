@@ -121,14 +121,20 @@ public class LHView implements View {
 	}
 	
 	private void outerBorder() {
-		insertColorInData(0, 13 - border , Color.WHITE);
-		insertColorInData(27, border , Color.WHITE);
-		insertColorInData(border*2, 0 , Color.WHITE);
-		insertColorInData(27 - border*2, 13 , Color.WHITE);
+		//links
+		insertColorInData(0, 13 - border , Color.RED);
+		insertColorInData(0, 13 - ((border+7)%13) , Color.YELLOW);
+		//rechts
+		insertColorInData(27, border , Color.RED);
+		insertColorInData(27, (border+7)%13 , Color.YELLOW);
+		//oben
+		insertColorInData(border*2, 0 , Color.RED);
+		insertColorInData(((border+7)%13)*2, 0 , Color.YELLOW);
+		//unten
+		insertColorInData(27 - border*2, 13 , Color.RED);
+		insertColorInData(27 - ((border+7)%13)*2, 13 , Color.YELLOW);
 		border++;
-		if(border==14) {
-			border=0;
-		}
+		border %= 13;
 	}
 
 	private void looseScreen() {
@@ -146,7 +152,7 @@ public class LHView implements View {
 						// upper image which rotates right
 						insertColorInData((col + moveImage) % 28, row, color);
 						// lower image which rotates left
-						insertColorInData(((col - moveImage - 28) % 28) + 28, row + 7, color);
+						insertColorInData(((col - moveImage - 28) % 28) + 27, row + 7, color);
 					}
 				}
 			}

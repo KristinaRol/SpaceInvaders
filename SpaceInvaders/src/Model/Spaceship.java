@@ -96,6 +96,7 @@ public class Spaceship {
 	
 	/**
 	 * Checks if the player already lost or won.
+	 * and if lower enemy row doesn't exist, player gets epic weapon.
 	*/
 	public void checkGameState(Enemies enemies) {
 		
@@ -104,6 +105,14 @@ public class Spaceship {
 		}
 		else if (life <= 0) {
 			winLose = -1;
+		}
+		
+		for (Enemy enemy : enemies.getEnemmyList()) {
+			if(enemy.getRow()==2) {
+				epicWeapon = false;
+			} else {
+				epicWeapon = true;
+			}
 		}
 	}
 	
