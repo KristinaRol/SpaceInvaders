@@ -137,7 +137,6 @@ public class BoardFancy extends GCompound implements View {
 
 	}
 
-	
 	private void losingScreen() {
 		if (player.lost()) {
 			GImage gameover = new GImage(this.gameover.getImage());
@@ -146,5 +145,5 @@ public class BoardFancy extends GCompound implements View {
 		}
 
 	}
-	
+
 }

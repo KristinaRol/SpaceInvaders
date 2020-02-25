@@ -13,6 +13,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Model.Enemies;
+import Model.MusicState;
 import Model.Spaceship;
 import View.Board;
 import View.BoardFancy;
@@ -21,16 +22,17 @@ import View.LHView;
 public class InputController extends Thread implements KeyListener {
 	private Enemies enemies;
 	private BoardFancy board;
-	//private Board board;
+	// private Board board;
 	private Spaceship spaceship;
 	private LHView lightHouse;
 	private int counter = 0;
 	private double timeOfLastShoot = System.currentTimeMillis();
 	private double startTime;
 	private int deltaTime;
-	private boolean alreadyPlayed = false;
-	
-	
+	public static boolean changed = true;
+	public static MusicState state = MusicState.Play;
+
+	private Clip currentMusic;
 
 	// Hash Map of the pressed buttons.
 	private HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
@@ -50,31 +52,26 @@ public class InputController extends Thread implements KeyListener {
 		keyPressed.put(KeyEvent.VK_SPACE, false);
 		keyPressed.put(-1, false);
 	}
+
 	// die Dauerschleife
 	public void run() {
 
 		while (true) {
 			startTime = System.currentTimeMillis();
-			
-			
-			if(!alreadyPlayed) {
-				play("BackgroundMusic.wav");
-				alreadyPlayed = true;
-			}
-			
+
+			playMusic();
+
 			if (spaceship.getStart()) {
-				
-				
-				
+
 				// Counter for some stuff that should only be done once in a while.
 				counter = counter % 18;
 				// Updating the models.
 				enemies.removeDestroiedEnemies();
 				enemies.removeInvisbleBombs();
-				
+
 				if (counter < 9) {
 					if (counter % 3 == 0) {
-						enemies.move(counter / 3);	
+						enemies.move(counter / 3);
 					}
 				}
 
@@ -86,10 +83,10 @@ public class InputController extends Thread implements KeyListener {
 				spaceship.checkGameState(enemies);
 				spaceship.removeExplosions();
 				spaceship.removeShoots();
-				
+
 				if (counter % 3 == 0) {
-						
-					spaceship.nextStateExplosion();				
+
+					spaceship.nextStateExplosion();
 				}
 
 				// Updates the views.
@@ -101,22 +98,19 @@ public class InputController extends Thread implements KeyListener {
 				lightHouse.startScreen();
 			}
 
-
 			// Stop for a certain amount before the next frame.
 			try {
-				//sleep(100);
+				// sleep(100);
 				deltaTime = (int) (System.currentTimeMillis() - startTime);
-				//System.out.println(deltaTime);
+				// System.out.println(deltaTime);
 				if (deltaTime < 95) {
-					sleep((long) (100 - deltaTime));					
+					sleep((long) (100 - deltaTime));
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
-
 
 	// Calles methods according to the buttons that are pressed.
 	public void move() {
@@ -135,8 +129,6 @@ public class InputController extends Thread implements KeyListener {
 			}
 		}
 
-		
-
 	}
 
 	// Key inputs. Changes the boolean of the hash map.
@@ -145,7 +137,7 @@ public class InputController extends Thread implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		
+
 		if (spaceship.getStart()) {
 			keyPressed.put(e.getKeyCode(), true);
 		}
@@ -153,27 +145,37 @@ public class InputController extends Thread implements KeyListener {
 			spaceship.setStart();
 		}
 	}
-	
-	private void play(String filename) {
-		try {
-	         // Open an audio input stream.
-	         URL url = this.getClass().getClassLoader().getResource(filename);
-	         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-	         // Get a sound clip resource.
-	         Clip clip = AudioSystem.getClip();
-	         // Open audio clip and load samples from the audio input stream.
-	         clip.open(audioIn);
-	         clip.start();
-	      } catch (UnsupportedAudioFileException e) {
-	         e.printStackTrace();
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      } catch (LineUnavailableException e) {
-	         e.printStackTrace();
-	      }
+
+	private void playMusic() {
+
+		if (changed) {
+			if (currentMusic != null) {
+				currentMusic.stop();
+			}
+			try {
+				AudioSystem.getClip().stop();
+
+				URL url = this.getClass().getClassLoader().getResource(state.getFilename());
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+				System.out.println(state);
+
+				// Get a sound clip resource.
+				Clip clip = AudioSystem.getClip();
+				// Open audio clip and load samples from the audio input stream.
+				clip.open(audioIn);
+				currentMusic = clip;
+				clip.start();
+			} catch (UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+			changed = false;
+		}
 	}
 
-	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		keyPressed.put(e.getKeyCode(), false);

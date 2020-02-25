@@ -9,6 +9,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import Controller.InputController;
 
 public class Spaceship {
 
@@ -20,6 +21,7 @@ public class Spaceship {
 	private int y;
 	private int life;
 	private boolean epicWeapon = false;
+	private boolean changedState = false;
 
 	private int winningExplosionState = 0;
 	private int winningExplosionX;
@@ -43,24 +45,24 @@ public class Spaceship {
 		Shoot shoot = new Shoot(x, y, Shoot.DIRECTION_UP);
 		shoots.add(shoot);
 	}
-	
+
 	private void play(String filename) {
 		try {
-	         // Open an audio input stream.
-	         URL url = this.getClass().getClassLoader().getResource(filename);
-	         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-	         // Get a sound clip resource.
-	         Clip clip = AudioSystem.getClip();
-	         // Open audio clip and load samples from the audio input stream.
-	         clip.open(audioIn);
-	         clip.start();
-	      } catch (UnsupportedAudioFileException e) {
-	         e.printStackTrace();
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      } catch (LineUnavailableException e) {
-	         e.printStackTrace();
-	      }
+			// Open an audio input stream.
+			URL url = this.getClass().getClassLoader().getResource(filename);
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+			// Get a sound clip resource.
+			Clip clip = AudioSystem.getClip();
+			// Open audio clip and load samples from the audio input stream.
+			clip.open(audioIn);
+			clip.start();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -137,10 +139,21 @@ public class Spaceship {
 				if (winningExplosionState < 50) {
 					winningExplosionState++;
 				}
+				
+				InputController.state = MusicState.Win;
+				if (!changedState) {
+					InputController.changed = true;
+					changedState = true;
+				}
 			}
 		} else if (life <= 0) {
 			if (winLose != 1) {
 				winLose = -1;
+				InputController.state = MusicState.Death;
+				if (!changedState) {
+					InputController.changed = true;
+					changedState = true;
+				}
 			}
 		}
 
