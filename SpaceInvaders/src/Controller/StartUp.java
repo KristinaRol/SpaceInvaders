@@ -1,5 +1,14 @@
 package Controller;
 
+import java.io.IOException;
+import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import Model.Enemies;
 import Model.Spaceship;
 import View.Board;
@@ -43,11 +52,14 @@ public class StartUp extends GraphicsProgram {
 		//addKeyListeners();
 		inputController.start();
 		getGCanvas().addKeyListener(inputController);
+		
 	}
 
 	@Override
 	public void run() {
 		super.run();
 	}
+	
+
 
 }

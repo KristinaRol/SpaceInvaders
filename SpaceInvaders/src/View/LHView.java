@@ -39,7 +39,6 @@ public class LHView implements View {
 		// Clears the array.
 		data = new byte[28 * 14 * 3];
 
-		
 		if (player.winLose != 1) {
 			// Draws the player.
 			insertColorInData(player.getX(), player.getY(), Color.GREEN);
@@ -50,18 +49,15 @@ public class LHView implements View {
 			drawBombs();
 		}
 
-		
-		
-		
 		drawExplosions();
-		
+
 		drawWinningExplosion();
 
+		// player.winLose = -1;
 		looseScreen();
-		//player.winLose = 1;
+		// player.winLose = 1;
 		winningScreen();
 
-		
 		sendToDisplay();
 	}
 
@@ -163,12 +159,12 @@ public class LHView implements View {
 			insertColorInData(27, i, Color.WHITE);
 			// oben & unten
 			insertColorInData(i * 2, 0, Color.WHITE);
-			insertColorInData(i * 2+1, 13, Color.WHITE);
+			insertColorInData(i * 2 + 1, 13, Color.WHITE);
 		}
 		border++;
 		border %= 2;
 	}
-	
+
 	private void drawFlyingShip() {
 		int[][] ship = pixelShip.getPixelArray();
 		Color color;
@@ -176,7 +172,7 @@ public class LHView implements View {
 			for (int col = 0; col < ship[0].length; col++) {
 				color = new Color(GImage.getRed(ship[row][col]), GImage.getGreen(ship[row][col]),
 						GImage.getBlue(ship[row][col]));
-						insertColorInData(col +10, ((row - moveImage)%14)+13, color);
+				insertColorInData(col + 10, ((row - moveImage) % 14) + 13, color);
 			}
 		}
 		if (moveImage == 14 * 14 * 14) {
@@ -241,18 +237,17 @@ public class LHView implements View {
 
 	}
 
-	
-	
 	private void drawWinningExplosion() {
 		if (player.won()) {
 			for (int i = 0; i < 3; i++) {
-				drawCircle(player.getWinningExplosionX(), player.getWinningExplosionY(), player.getWinningExplosionState() - (i * 6), Color.RED);
-				drawCircle(player.getWinningExplosionX(), player.getWinningExplosionY(), player.getWinningExplosionState() - (i * 6) - 3, Color.BLACK);				
+				drawCircle(player.getWinningExplosionX(), player.getWinningExplosionY(),
+						player.getWinningExplosionState() - (i * 6), Color.RED);
+				drawCircle(player.getWinningExplosionX(), player.getWinningExplosionY(),
+						player.getWinningExplosionState() - (i * 6) - 3, Color.BLACK);
 			}
 		}
 	}
-	
-	
+
 	private void drawCircle(int x, int y, int radius, Color color) {
 		for (int row = 0; row < 14; row++) {
 			for (int col = 0; col < 28; col++) {
@@ -264,8 +259,7 @@ public class LHView implements View {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Sends the data array to the light house.
 	 */

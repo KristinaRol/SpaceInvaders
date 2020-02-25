@@ -28,6 +28,8 @@ public class BoardFancy extends GCompound implements View {
 	private GImage bullet = new GImage("bullet.png");
 	private GImage bullet2 = new GImage("bullet2.png");
 	private GImage bullet3 = new GImage("bullet3.png");
+	private GImage won = new GImage("won.png");
+	private GImage gameover = new GImage("gameover.png");
 	private int changeImage = 0;
 
 	public void newFrame(Spaceship player, Enemies enemies) {
@@ -125,32 +127,22 @@ public class BoardFancy extends GCompound implements View {
 	public void startScreen() {
 		GImage sky = new GImage(this.sky.getImage());
 		add(sky);
-		GLabel start = new GLabel("Press SCPACE to start", Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER / 2 - 180,
-				Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER / 2);
-		start.setFont("arial-36");
-		start.setColor(Color.WHITE);
 	}
 
 	private void winningScreen() {
-
 		if (player.won()) {
-			background = new GRect(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER,
-					Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
-			background.setFilled(true);
-			background.setColor(Color.GREEN);
-			add(background);
+			GImage won = new GImage(this.won.getImage());
+			won.setSize(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
+			add(won);
 		}
 
 	}
 
 	private void losingScreen() {
-
 		if (player.lost()) {
-			background = new GRect(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER,
-					Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
-			background.setFilled(true);
-			background.setColor(Color.RED);
-			add(background);
+			GImage gameover = new GImage(this.gameover.getImage());
+			gameover.setSize(Spaceship.BASE_WIDTH * Spaceship.MULTIPLIER, Spaceship.BASE_HEIGHT * Spaceship.MULTIPLIER);
+			add(gameover);
 		}
 
 	}
