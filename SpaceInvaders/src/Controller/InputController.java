@@ -87,7 +87,7 @@ public class InputController extends Thread implements KeyListener {
 			try {
 				//sleep(100);
 				deltaTime = (int) (System.currentTimeMillis() - startTime);
-				System.out.println(deltaTime);
+				//System.out.println(deltaTime);
 				if (deltaTime < 95) {
 					sleep((long) (100 - deltaTime));					
 				}

@@ -52,6 +52,7 @@ public class LHView implements View {
 		// player.winLose=-1; //test
 		looseScreen();
 
+		
 		sendToDisplay();
 	}
 
