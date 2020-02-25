@@ -82,7 +82,6 @@ public class BoardFancy extends GCompound implements View {
 	}
 
 	public void drawShoots(Spaceship ship) {
-
 		for (Shoot shoot : ship.shoots) {
 			GImage bullet;
 

@@ -173,6 +173,7 @@ public class InputController extends Thread implements KeyListener {
 	      }
 	}
 
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		keyPressed.put(e.getKeyCode(), false);
