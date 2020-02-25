@@ -107,8 +107,7 @@ public class LHView implements View {
 				color2 = new Color(GImage.getRed(alien2[row][col]), GImage.getGreen(alien2[row][col]),
 						GImage.getBlue(alien2[row][col]));
 
-				if (moveImage % 8 == 0 || (moveImage + 1) % 8 == 0 || (moveImage + 2) % 8 == 0
-						|| (moveImage + 3) % 8 == 0) {
+				if (moveImage % 8 < 4) {
 					// alien1
 					insertColorInData(col, row, color1);
 				} else {
@@ -170,7 +169,7 @@ public class LHView implements View {
 						// upper image which rotates right
 						insertColorInData((col + moveImage) % 28, row, color);
 						// lower image which rotates left
-						insertColorInData(((col - moveImage - 28) % 28) + 27, row + 7, color);
+						insertColorInData(((col - moveImage) % 28) + 27, row + 7, color);
 					}
 				}
 			}
