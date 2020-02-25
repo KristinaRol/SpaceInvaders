@@ -119,6 +119,7 @@ public class Enemies {
 		for(Bomb bomb : bombList) {
 			if (bomb.getX() == player.getX() && bomb.getY() == player.getY()) {
 				player.setLife(player.getLife() - 1);
+				player.explosionList.add(new Explosion(bomb.getX(),bomb.getY()));
 			}
 		}
 	}

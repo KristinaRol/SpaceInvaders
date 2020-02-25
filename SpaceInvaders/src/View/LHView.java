@@ -46,6 +46,8 @@ public class LHView implements View {
 		drawBombs();
 		drawLife();
 		drawExplosions();
+		
+		drawWinningExplosion();
 
 		// player.winLose=-1; //test
 		looseScreen();
@@ -105,7 +107,7 @@ public class LHView implements View {
 				color2 = new Color(GImage.getRed(alien2[row][col]), GImage.getGreen(alien2[row][col]),
 						GImage.getBlue(alien2[row][col]));
 
-				if (moveImage % 8 == 0 || (moveImage+1) % 8 == 0 || (moveImage+2) % 8 == 0 || (moveImage+3) % 8 == 0) {
+				if (moveImage % 8 < 4) {
 					// alien1
 					insertColorInData(col, row, color1);
 				} else {
@@ -133,7 +135,7 @@ public class LHView implements View {
 						// upper image which rotates right
 						insertColorInData((col + moveImage) % 28, row, color);
 						// lower image which rotates left
-						insertColorInData(((col - moveImage - 28) % 28) + 28, row + 7, color);
+						insertColorInData(((col - moveImage) % 28) + 27, row + 7, color);
 					}
 				}
 			}
@@ -173,6 +175,31 @@ public class LHView implements View {
 
 	}
 
+	
+	
+	private void drawWinningExplosion() {
+		if (player.won()) {
+			for (int i = 0; i < 3; i++) {
+				drawCircle(player.getWinningExplosionX(), player.getWinningExplosionY(), player.getWinningExplosionState() - (i * 6), Color.RED);
+				drawCircle(player.getWinningExplosionX(), player.getWinningExplosionY(), player.getWinningExplosionState() - (i * 6) - 3, Color.BLACK);				
+			}
+		}
+	}
+	
+	
+	private void drawCircle(int x, int y, int radius, Color color) {
+		for (int row = 0; row < 14; row++) {
+			for (int col = 0; col < 28; col++) {
+				int deltaX = col - x;
+				int deltaY = row - y;
+				if (radius > Math.sqrt(deltaX * deltaX + deltaY * deltaY)) {
+					insertColorInData(col, row, color);
+				}
+			}
+		}
+	}
+	
+	
 	/**
 	 * Sends the data array to the light house.
 	 */
@@ -214,8 +241,8 @@ public class LHView implements View {
 		// Try connecting to the display
 		try {
 			display = LighthouseDisplay.getDisplay();
-			display.setUsername("stu215165");
-			display.setToken("API-TOK_0RSp-3Vwz-5ZF5-2Jb2-lMAH");
+			display.setUsername("Jannis");
+			display.setToken("API-TOK_h5qy-BIkK-e3/X-MxdQ-k0VB");
 		} catch (Exception e) {
 			System.out.println("Connection failed: " + e.getMessage());
 			e.printStackTrace();

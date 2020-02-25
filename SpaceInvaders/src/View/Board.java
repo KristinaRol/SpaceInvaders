@@ -10,7 +10,6 @@ import Model.Explosion;
 import Model.Shoot;
 import Model.Spaceship;
 import acm.graphics.GCompound;
-import acm.graphics.GImage;
 import acm.graphics.GRect;
 
 public class Board extends GCompound implements View {

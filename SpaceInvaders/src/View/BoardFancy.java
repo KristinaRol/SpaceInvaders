@@ -106,7 +106,7 @@ public class BoardFancy extends GCompound implements View {
 	public void drawBombs() {
 		for (Bomb bomb : enemies.getBombs()) {
 			GImage bomb1 = new GImage(this.bomb.getImage());
-			bomb1.setLocation(bomb.getX() * Spaceship.MULTIPLIER, bomb.getY() * Spaceship.MULTIPLIER);
+			bomb1.setLocation(bomb.getX() * Spaceship.MULTIPLIER + 15, bomb.getY() * Spaceship.MULTIPLIER);
 			bomb1.setSize(20, 20);
 			add(bomb1);
 		}

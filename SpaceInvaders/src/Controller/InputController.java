@@ -1,15 +1,14 @@
 package Controller;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 import Model.Enemies;
-import Model.Shoot;
 import Model.Spaceship;
 import View.Board;
 import View.BoardFancy;
 import View.LHView;
+
 public class InputController extends Thread implements KeyListener {
 	private Enemies enemies;
 	private BoardFancy board;
@@ -18,6 +17,9 @@ public class InputController extends Thread implements KeyListener {
 	private LHView lightHouse;
 	private int counter = 0;
 	private double timeOfLastShoot = System.currentTimeMillis();
+	private double startTime;
+	private int deltaTime;
+	
 
 	// Hash Map of the pressed buttons.
 	private HashMap<Integer, Boolean> keyPressed = new HashMap<Integer, Boolean>();
@@ -41,6 +43,8 @@ public class InputController extends Thread implements KeyListener {
 	public void run() {
 
 		while (true) {
+			startTime = System.currentTimeMillis();
+			
 			
 			if (spaceship.getStart()) {
 				// Counter for some stuff that should only be done once in a while.
@@ -48,6 +52,13 @@ public class InputController extends Thread implements KeyListener {
 				// Updating the models.
 				enemies.removeDestroiedEnemies();
 				enemies.removeInvisbleBombs();
+				
+				if (counter < 9) {
+					if (counter % 3 == 0) {
+						enemies.move(counter / 3);	
+					}
+				}
+
 				enemies.moveBombs();
 				enemies.createBomb();
 				spaceship.shootEnemy(enemies);
@@ -56,15 +67,10 @@ public class InputController extends Thread implements KeyListener {
 				spaceship.checkGameState(enemies);
 				spaceship.removeExplosions();
 				spaceship.removeShoots();
+				
 				if (counter % 3 == 0) {
 						
 					spaceship.nextStateExplosion();				
-				}
-
-				if (counter < 9) {
-					if (counter % 3 == 0) {
-						enemies.move(counter / 3);	
-					}
 				}
 
 				// Updates the views.
@@ -79,7 +85,12 @@ public class InputController extends Thread implements KeyListener {
 
 			// Stop for a certain amount before the next frame.
 			try {
-				sleep(100);
+				//sleep(100);
+				deltaTime = (int) (System.currentTimeMillis() - startTime);
+				System.out.println(deltaTime);
+				if (deltaTime < 95) {
+					sleep((long) (100 - deltaTime));					
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
