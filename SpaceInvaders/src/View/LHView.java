@@ -20,6 +20,7 @@ public class LHView implements View {
 	private GImage loose = new GImage("loose.png");
 	private GImage start1 = new GImage("start1.png");
 	private GImage start2 = new GImage("start2.png");
+	private GImage pixelShip = new GImage("pixelShip.png");
 	private int moveImage = 0;
 	private int border = 0;
 
@@ -38,20 +39,29 @@ public class LHView implements View {
 		// Clears the array.
 		data = new byte[28 * 14 * 3];
 
-		// Draws the player.
-		insertColorInData(player.getX(), player.getY(), Color.GREEN);
+		
+		if (player.winLose != 1) {
+			// Draws the player.
+			insertColorInData(player.getX(), player.getY(), Color.GREEN);
+			// Draws the other stuff.
+			drawLife();
+			drawEnemies();
+			drawShoot();
+			drawBombs();
+		}
 
-		// Draws the other stuff.
-		drawEnemies();
-		drawShoot();
-		drawBombs();
-		drawLife();
+		
+		
+		
 		drawExplosions();
+		
+		drawWinningExplosion();
 
 		looseScreen();
 		//player.winLose = 1;
 		winningScreen();
 
+		
 		sendToDisplay();
 	}
 
@@ -141,17 +151,39 @@ public class LHView implements View {
 	private void winningScreen() {
 		if (player.won()) {
 			blinkingBorder();
+			drawFlyingShip();
 		}
 	}
 
 	private void blinkingBorder() {
-		border &= 2;
-		for (int i = border; i < 14; i+=2) {
+		border %= 2;
+		for (int i = border; i < 14; i += 2) {
+			// rechts & links
 			insertColorInData(0, i, Color.WHITE);
 			insertColorInData(27, i, Color.WHITE);
+			// oben & unten
+			insertColorInData(i * 2, 0, Color.WHITE);
+			insertColorInData(i * 2+1, 13, Color.WHITE);
 		}
 		border++;
-		border%=2;
+		border %= 2;
+	}
+	
+	private void drawFlyingShip() {
+		int[][] ship = pixelShip.getPixelArray();
+		Color color;
+		for (int row = 0; row < ship.length; row++) {
+			for (int col = 0; col < ship[0].length; col++) {
+				color = new Color(GImage.getRed(ship[row][col]), GImage.getGreen(ship[row][col]),
+						GImage.getBlue(ship[row][col]));
+						insertColorInData(col +10, ((row - moveImage)%14)+13, color);
+			}
+		}
+		if (moveImage == 14 * 14 * 14) {
+			moveImage = 0;
+		} else {
+			moveImage++;
+		}
 	}
 
 	private void looseScreen() {
@@ -209,6 +241,31 @@ public class LHView implements View {
 
 	}
 
+	
+	
+	private void drawWinningExplosion() {
+		if (player.won()) {
+			for (int i = 0; i < 3; i++) {
+				drawCircle(player.getWinningExplosionX(), player.getWinningExplosionY(), player.getWinningExplosionState() - (i * 6), Color.RED);
+				drawCircle(player.getWinningExplosionX(), player.getWinningExplosionY(), player.getWinningExplosionState() - (i * 6) - 3, Color.BLACK);				
+			}
+		}
+	}
+	
+	
+	private void drawCircle(int x, int y, int radius, Color color) {
+		for (int row = 0; row < 14; row++) {
+			for (int col = 0; col < 28; col++) {
+				int deltaX = col - x;
+				int deltaY = row - y;
+				if (radius > Math.sqrt(deltaX * deltaX + deltaY * deltaY)) {
+					insertColorInData(col, row, color);
+				}
+			}
+		}
+	}
+	
+	
 	/**
 	 * Sends the data array to the light house.
 	 */
@@ -251,7 +308,7 @@ public class LHView implements View {
 		try {
 			display = LighthouseDisplay.getDisplay();
 			display.setUsername("stu215165");
-			display.setToken("API-TOK_0RSp-3Vwz-5ZF5-2Jb2-lMAH");
+			display.setToken("API-TOK_ZkUz-b+sQ-047u-Ofsz-L2b7");
 		} catch (Exception e) {
 			System.out.println("Connection failed: " + e.getMessage());
 			e.printStackTrace();

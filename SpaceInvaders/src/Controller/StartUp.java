@@ -18,7 +18,7 @@ public class StartUp extends GraphicsProgram {
 		new StartUp().start();
 	}
 
-	
+	 
 	public void init() {
         //int delta = getSize().height - getCentralRegionSize().height;
         
