@@ -58,7 +58,7 @@ public class LHView implements View {
 
 		// player.winLose = -1;
 		looseScreen();
-		 player.winLose = 1;
+		 //player.winLose = 1;
 		winningScreen();
 
 		sendToDisplay();
