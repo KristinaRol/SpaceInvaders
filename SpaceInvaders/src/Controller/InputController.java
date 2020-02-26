@@ -157,14 +157,15 @@ public class InputController extends Thread implements KeyListener {
 
 				URL url = this.getClass().getClassLoader().getResource(state.getFilename());
 				AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-				System.out.println(state);
 
-				// Get a sound clip resource.
+				//Get a sound clip resource.
 				Clip clip = AudioSystem.getClip();
 				// Open audio clip and load samples from the audio input stream.
 				clip.open(audioIn);
 				currentMusic = clip;
 				clip.start();
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+				
 			} catch (UnsupportedAudioFileException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
