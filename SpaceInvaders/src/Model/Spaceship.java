@@ -41,28 +41,9 @@ public class Spaceship {
 	}
 
 	public void shoot() {
-		play("shoot.wav");
+		Sound.play("shoot.wav");
 		Shoot shoot = new Shoot(x, y, Shoot.DIRECTION_UP);
 		shoots.add(shoot);
-	}
-
-	private void play(String filename) {
-		try {
-			// Open an audio input stream.
-			URL url = this.getClass().getClassLoader().getResource(filename);
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-			// Get a sound clip resource.
-			Clip clip = AudioSystem.getClip();
-			// Open audio clip and load samples from the audio input stream.
-			clip.open(audioIn);
-			clip.start();
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**

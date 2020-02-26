@@ -128,27 +128,8 @@ public class Enemies {
 			if (bomb.getX() == player.getX() && bomb.getY() == player.getY()) {
 				player.setLife(player.getLife() - 1);
 				player.explosionList.add(new Explosion(bomb.getX(),bomb.getY()));
-				play("bomb.wav");
+				Sound.play("bomb.wav");
 			}
-		}
-	}
-	
-	private void play(String filename) {
-		try {
-			// Open an audio input stream.
-			URL url = this.getClass().getClassLoader().getResource(filename);
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-			// Get a sound clip resource.
-			Clip clip = AudioSystem.getClip();
-			// Open audio clip and load samples from the audio input stream.
-			clip.open(audioIn);
-			clip.start();
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
 		}
 	}
 

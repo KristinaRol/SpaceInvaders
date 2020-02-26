@@ -58,7 +58,7 @@ public class LHView implements View {
 
 		// player.winLose = -1;
 		looseScreen();
-		 //player.winLose = 1;
+		//player.winLose = 1;
 		winningScreen();
 
 		sendToDisplay();
@@ -158,14 +158,33 @@ public class LHView implements View {
 	private void drawFirework() {
 		Random rand = new Random();
 		RandomGenerator rng = RandomGenerator.getInstance();
-		if(moveImage%14==0) {
+		if (moveImage % 14 == 0) {
 			// Obtain a number between [0 - 27].
-			random = rand.nextInt(28);
+			random = rand.nextInt(14 * 28);
 		}
-		drawCircle(random, random/2, moveImage/2, rng.nextColor());
-		drawCircle(random, random/2, moveImage/2-1, Color.BLACK);
-		drawCircle(random, random/2, moveImage/2-2, rng.nextColor());
-		drawCircle(random, random/2, moveImage/2-3, Color.BLACK);
+		drawCircle(random / 14, random % 14, (moveImage % 14) / 2, rng.nextColor());
+		drawCircle(random / 14, random % 14, (moveImage % 14) / 2 - 1, Color.BLACK);
+		drawCircle(random / 14, random % 14, (moveImage % 14) / 2 - 2, rng.nextColor());
+		drawCircle(random / 14, random % 14, (moveImage % 14) / 2 - 3, Color.BLACK);
+	}
+
+	private void drawFlyingShip() {
+		int[][] ship = pixelShip.getPixelArray();
+		Color color;
+		for (int row = 0; row < ship.length; row++) {
+			for (int col = 0; col < ship[0].length; col++) {
+				color = new Color(GImage.getRed(ship[row][col]), GImage.getGreen(ship[row][col]),
+						GImage.getBlue(ship[row][col]));
+				insertColorInData(col + 10, ((row - moveImage) % 14) + 13, color);
+			}
+		}
+		if (moveImage == 14 * 14 * 14) {
+			moveImage = 0;
+		} else {
+			moveImage++;
+		}
+		// moveImage++;
+		// moveImage%=14;
 	}
 
 	private void blinkingBorder() {
@@ -180,25 +199,6 @@ public class LHView implements View {
 		}
 		border++;
 		border %= 2;
-	}
-
-	private void drawFlyingShip() {
-		int[][] ship = pixelShip.getPixelArray();
-		Color color;
-		for (int row = 0; row < ship.length; row++) {
-			for (int col = 0; col < ship[0].length; col++) {
-				color = new Color(GImage.getRed(ship[row][col]), GImage.getGreen(ship[row][col]),
-						GImage.getBlue(ship[row][col]));
-				insertColorInData(col + 10, ((row - moveImage) % 14) + 13, color);
-			}
-		}
-		if (moveImage == 14 * 14 * 14) {
-			//moveImage = 0;
-		} else {
-			//moveImage++;
-		}
-		moveImage++;
-		moveImage%=14;
 	}
 
 	private void looseScreen() {
