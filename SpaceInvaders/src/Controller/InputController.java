@@ -145,7 +145,14 @@ public class InputController extends Thread implements KeyListener {
 			spaceship.setStart();
 		}
 	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {
+		keyPressed.put(e.getKeyCode(), false);
+	}
 
+	
+	
 	private void playMusic() {
 
 		if (changed) {
@@ -175,10 +182,5 @@ public class InputController extends Thread implements KeyListener {
 			}
 			changed = false;
 		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		keyPressed.put(e.getKeyCode(), false);
 	}
 }

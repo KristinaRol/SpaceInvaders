@@ -148,7 +148,8 @@ public class LHView implements View {
 	}
 
 	private void winningScreen() {
-		if (player.won()) {
+		if (player.won() && player.getWinningExplosionState() > 30) {
+		//if (player.won()) {
 			blinkingBorder();
 			drawFirework();
 			drawFlyingShip();
@@ -320,8 +321,8 @@ public class LHView implements View {
 		// Try connecting to the display
 		try {
 			display = LighthouseDisplay.getDisplay();
-			display.setUsername("stu215165");
-			display.setToken("API-TOK_ZkUz-b+sQ-047u-Ofsz-L2b7");
+			display.setUsername("Jannis");
+			display.setToken("API-TOK_h5qy-BIkK-e3/X-MxdQ-k0VB");
 		} catch (Exception e) {
 			System.out.println("Connection failed: " + e.getMessage());
 			e.printStackTrace();

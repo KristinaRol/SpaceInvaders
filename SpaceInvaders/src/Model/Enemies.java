@@ -1,21 +1,12 @@
 package Model;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Enemies {
 
 	private ArrayList<Enemy> enemyList = new ArrayList<>();
 	private ArrayList<Bomb> bombList = new ArrayList<>();
 	private boolean direction = true;
-	
 
 	public Enemies(int rows, int columns) {
 
@@ -49,7 +40,9 @@ public class Enemies {
 	}
 
 	public void move(int row) {
-		checkDirection();
+		if (row == 0) {
+			checkDirection();
+		}
 
 		for (Enemy enemy : enemyList) {
 			if (enemy.getRow() == row) {
@@ -64,48 +57,43 @@ public class Enemies {
 
 	private void checkDirection() {
 		for (Enemy enemy : enemyList) {
-			if (enemy.getRow() == 2) {
-				if (direction) {
-					if (enemy.getX() == 0) {
-						direction = false;
-						lowerByOne();
-					}
+			if (direction) {
+				if (enemy.getX() == 0) {
+					direction = false;
+					lowerByOne();
+					return;
 				}
-				else {
-					if (enemy.getX() == Spaceship.BASE_WIDTH - 1) {
-						direction = true;
-						lowerByOne();
-					}
+			} else {
+				if (enemy.getX() == Spaceship.BASE_WIDTH - 1) {
+					direction = true;
+					lowerByOne();
+					return;
 				}
 			}
 		}
 	}
-	
-	
+
 	private void lowerByOne() {
 		for (Enemy enemy : enemyList) {
 			enemy.setY(enemy.getY() + 1);
 		}
 	}
-	
+
 	public boolean killPlayer(Spaceship player) {
-		
+
 		for (Enemy enemy : enemyList) {
 			if (enemy.getX() == player.getX() && enemy.getY() == player.getY()) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
-	
-	
-	
+
 	public void removeInvisbleBombs() {
 		@SuppressWarnings("unchecked")
 		ArrayList<Bomb> bombCheckList = (ArrayList<Bomb>) bombList.clone();
-		for(Bomb bomb : bombCheckList) {
+		for (Bomb bomb : bombCheckList) {
 			if (!bomb.isVisible()) {
 				bombList.remove(bomb);
 			}
@@ -113,7 +101,7 @@ public class Enemies {
 	}
 
 	public void moveBombs() {
-		for(Bomb bomb : bombList) {
+		for (Bomb bomb : bombList) {
 			bomb.move();
 		}
 	}
@@ -123,11 +111,11 @@ public class Enemies {
 			player.setLife(0);
 			return;
 		}
-		
-		for(Bomb bomb : bombList) {
+
+		for (Bomb bomb : bombList) {
 			if (bomb.getX() == player.getX() && bomb.getY() == player.getY()) {
 				player.setLife(player.getLife() - 1);
-				player.explosionList.add(new Explosion(bomb.getX(),bomb.getY()));
+				player.explosionList.add(new Explosion(bomb.getX(), bomb.getY()));
 				Sound.play("bomb.wav");
 			}
 		}
@@ -135,20 +123,18 @@ public class Enemies {
 
 	public void createBomb() {
 		int rand = (int) (Math.random() * 12);
-		
+
 		if (rand == 0) {
 			rand = (int) (Math.random() * enemyList.size());
 			if (enemyList.size() > 0) {
-				Bomb bomb = new Bomb(enemyList.get(rand).getX() , enemyList.get(rand).getY());
-				bombList.add(bomb);				
+				Bomb bomb = new Bomb(enemyList.get(rand).getX(), enemyList.get(rand).getY());
+				bombList.add(bomb);
 			}
 		}
 	}
-	
-	
+
 	public ArrayList<Bomb> getBombs() {
 		return bombList;
 	}
-	
 
 }
