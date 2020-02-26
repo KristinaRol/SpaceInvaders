@@ -20,9 +20,11 @@ public class BoardFancy extends GCompound implements View {
 	private GRect background;
 	private Spaceship player;
 	private Enemies enemies;
-	private GImage img = new GImage("Spaceship.png");
+	private GImage ship = new GImage("Spaceship.png");
 	private GImage heart = new GImage("heart.png");
-	private GImage alien = new GImage("alien.png");
+	private GImage alien1 = new GImage("alien1.png");
+	private GImage alien2 = new GImage("alien2.png");
+	private GImage alien3 = new GImage("alien3.png");
 	private GImage sky = new GImage("spaceWithLetter.png");
 	private GImage bomb = new GImage("bomb.png");
 	private GImage bullet = new GImage("bullet.png");
@@ -61,10 +63,10 @@ public class BoardFancy extends GCompound implements View {
 
 	public void drawShip() {
 
-		img.setLocation(player.getX() * Spaceship.MULTIPLIER, player.getY() * Spaceship.MULTIPLIER);
-		img.setSize(60, 40);
-		img.setVisible(true);
-		add(img);
+		ship.setLocation(player.getX() * Spaceship.MULTIPLIER, player.getY() * Spaceship.MULTIPLIER);
+		ship.setSize(62, 46);
+		ship.setVisible(true);
+		add(ship);
 	}
 
 	public void drawEnemies() {
@@ -75,9 +77,20 @@ public class BoardFancy extends GCompound implements View {
 	}
 
 	public void drawEnemy(Enemy enemy) {
-		GImage alien = new GImage(this.alien.getImage());
+		GImage alien = new GImage(this.alien1.getImage());
+		
+		switch (enemy.getRow()) {
+		case 1:
+			alien = new GImage(this.alien2.getImage());
+			break;
+		case 2:
+			alien = new GImage(this.alien3.getImage());
+			break;
+		default:
+			break;
+		}
 		alien.setLocation(enemy.getX() * Spaceship.MULTIPLIER, enemy.getY() * Spaceship.MULTIPLIER);
-		alien.setSize(35, 20);
+		alien.setSize(41, 41);
 		add(alien);
 	}
 
@@ -96,7 +109,7 @@ public class BoardFancy extends GCompound implements View {
 				changeImage++;
 			}
 
-			bullet.setLocation(shoot.getX() * Spaceship.MULTIPLIER + 16, shoot.getY() * Spaceship.MULTIPLIER + 16);
+			bullet.setLocation(shoot.getX() * Spaceship.MULTIPLIER + 18, shoot.getY() * Spaceship.MULTIPLIER - 8);
 			bullet.setSize(25, 25);
 			add(bullet);
 

@@ -3,6 +3,7 @@ package View;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import Model.Bomb;
 import Model.Enemies;
@@ -11,6 +12,7 @@ import Model.Explosion;
 import Model.Shoot;
 import Model.Spaceship;
 import acm.graphics.GImage;
+import acm.util.RandomGenerator;
 import de.cau.infprogoo.lighthouse.LighthouseDisplay;
 
 public class LHView implements View {
@@ -23,6 +25,7 @@ public class LHView implements View {
 	private GImage pixelShip = new GImage("pixelShip.png");
 	private int moveImage = 0;
 	private int border = 0;
+	private int random = 0;
 
 	// Array of the pixels that are shown on the light house.
 	// One pixel consists of an red, green and blue value.
@@ -55,7 +58,7 @@ public class LHView implements View {
 
 		// player.winLose = -1;
 		looseScreen();
-		// player.winLose = 1;
+		 player.winLose = 1;
 		winningScreen();
 
 		sendToDisplay();
@@ -147,8 +150,22 @@ public class LHView implements View {
 	private void winningScreen() {
 		if (player.won()) {
 			blinkingBorder();
+			drawFirework();
 			drawFlyingShip();
 		}
+	}
+
+	private void drawFirework() {
+		Random rand = new Random();
+		RandomGenerator rng = RandomGenerator.getInstance();
+		if(moveImage%14==0) {
+			// Obtain a number between [0 - 27].
+			random = rand.nextInt(28);
+		}
+		drawCircle(random, random/2, moveImage/2, rng.nextColor());
+		drawCircle(random, random/2, moveImage/2-1, Color.BLACK);
+		drawCircle(random, random/2, moveImage/2-2, rng.nextColor());
+		drawCircle(random, random/2, moveImage/2-3, Color.BLACK);
 	}
 
 	private void blinkingBorder() {
@@ -176,10 +193,12 @@ public class LHView implements View {
 			}
 		}
 		if (moveImage == 14 * 14 * 14) {
-			moveImage = 0;
+			//moveImage = 0;
 		} else {
-			moveImage++;
+			//moveImage++;
 		}
+		moveImage++;
+		moveImage%=14;
 	}
 
 	private void looseScreen() {
