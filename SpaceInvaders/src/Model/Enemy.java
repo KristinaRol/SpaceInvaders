@@ -1,6 +1,6 @@
 package Model;
 
-public class Enemy {
+public class Enemy {  
 
 	private int x;
 	private int y;
