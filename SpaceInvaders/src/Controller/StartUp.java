@@ -17,6 +17,7 @@ import View.LHView;
 import acm.program.GraphicsProgram;
 
 //the main method which starts the game
+@SuppressWarnings("serial")
 public class StartUp extends GraphicsProgram {
 
 	InputController inputController;
